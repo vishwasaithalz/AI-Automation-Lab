@@ -1,0 +1,40 @@
+import { readFile } from "node:fs/promises";
+import { MockProvider } from "./providers/mock-provider.js";
+import { runWorkflow } from "./workflow.js";
+
+async function main() {
+  const args = process.argv.slice(2);
+  const demo = args.includes("--demo");
+  let input;
+
+  if (demo) {
+    input = {
+      prompt: "Create a concise action plan from the supplied context.",
+      context: "Synthetic demo context: review a small project, run tests, document limitations."
+    };
+  } else {
+    const file = args.find((arg) => !arg.startsWith("--"));
+    if (!file) {
+      console.error("Usage: npm run demo OR npm run run -- path/to/input.json");
+      process.exitCode = 2;
+      return;
+    }
+    try {
+      input = JSON.parse(await readFile(file, "utf8"));
+    } catch (error) {
+      console.error("Could not read valid JSON input: " + error.message);
+      process.exitCode = 2;
+      return;
+    }
+  }
+
+  try {
+    const report = await runWorkflow(input, new MockProvider());
+    process.stdout.write(JSON.stringify(report, null, 2) + "\n");
+  } catch (error) {
+    console.error("Workflow error: " + error.message);
+    process.exitCode = 2;
+  }
+}
+
+main();
