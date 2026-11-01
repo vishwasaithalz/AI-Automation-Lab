@@ -1,54 +1,28 @@
 'use client';
-
-import { useEffect, useMemo, useState } from 'react';
-
-type Entry = { id: string; question: string; url: string; notes: string; draft: string; status: 'Research' | 'Draft ready' | 'Published'; createdAt: string; publishedUrl?: string };
-const KEY = 'quora-answer-studio-v1';
-const context = 'I am rebuilding my technical skills through hands-on learning. My interests include cybersecurity fundamentals, authorized security testing, AI tools, automation, JavaScript, Linux and web development. Keep claims grounded and do not present me as a senior professional.';
-
-export default function Home() {
-  const [items, setItems] = useState<Entry[]>([]);
-  const [question, setQuestion] = useState('');
-  const [url, setUrl] = useState('');
-  const [notes, setNotes] = useState('');
-  const [draft, setDraft] = useState('');
-  const [activeId, setActiveId] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState('');
-  useEffect(() => { try { const saved = localStorage.getItem(KEY); if (saved) setItems(JSON.parse(saved)); } catch {} }, []);
-  useEffect(() => { localStorage.setItem(KEY, JSON.stringify(items)); }, [items]);
-  const ready = useMemo(() => items.filter(x => x.status === 'Draft ready').length, [items]);
-  async function generate() {
-    if (!question.trim()) { setMessage('Paste the full question first.'); return; }
-    setBusy(true); setMessage('Drafting with your configured AI provider…');
-    try {
-      const res = await fetch('/api/draft', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question, context, sourceNotes: notes }) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Draft failed');
-      setDraft(data.draft); setMessage(`Draft generated using ${data.model}. Review facts and sources before publishing.`);
-    } catch (e) { setMessage(e instanceof Error ? e.message : 'Draft failed'); }
-    finally { setBusy(false); }
-  }
-  function save() {
-    if (!question.trim() || !draft.trim()) { setMessage('A question and draft are required to save.'); return; }
-    const entry: Entry = { id: crypto.randomUUID(), question: question.trim(), url: url.trim(), notes: notes.trim(), draft: draft.trim(), status: 'Draft ready', createdAt: new Date().toISOString() };
-    setItems(prev => [entry, ...prev]); setActiveId(entry.id); setMessage('Saved to this browser’s local queue.'); setQuestion(''); setUrl(''); setNotes(''); setDraft('');
-  }
-  function update(id: string, patch: Partial<Entry>) { setItems(prev => prev.map(x => x.id === id ? { ...x, ...patch } : x)); }
-  function exportQueue() { const blob = new Blob([JSON.stringify(items, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'quora-answer-queue.json'; a.click(); URL.revokeObjectURL(a.href); }
-  return <main className="shell">
-    <header className="top"><div><div className="eyebrow">AI Automation Lab / Quora workflow</div><h1 className="brand">Quora Answer Studio</h1><p className="sub">Find a question, bring the evidence, shape a genuinely useful answer, then publish from your normal Quora session. Your drafts stay in this browser until you export them.</p></div><span className="pill">CLOUDFLARE SETUP SKIPPED</span></header>
-    <div className="statrow"><div className="stat"><b>{items.length}</b><span>Saved drafts</span></div><div className="stat"><b>{ready}</b><span>Ready to review</span></div><div className="stat"><b>{items.filter(x=>x.status==='Published').length}</b><span>Marked published</span></div></div>
-    <div className="grid"><section className="panel"><h2>01 / Build an answer</h2>
-      <div className="field"><label>QUORA QUESTION</label><textarea value={question} onChange={e=>setQuestion(e.target.value)} placeholder="Paste the exact question text here…" /></div>
-      <div className="field"><label>QUESTION URL</label><input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://www.quora.com/..." /></div>
-      <div className="field"><label>RESEARCH NOTES + SOURCE LINKS</label><textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Add verified facts, your own notes and source URLs. Don't paste private information." /></div>
-      <div className="actions"><button className="primary" onClick={generate} disabled={busy}>{busy?'Generating…':'Generate answer draft'}</button><button className="secondary" onClick={save}>Save draft to queue</button></div>
-      <div className="field"><label>ANSWER DRAFT</label><textarea style={{minHeight:250}} value={draft} onChange={e=>setDraft(e.target.value)} placeholder="Your generated answer will appear here. Edit it before saving or publishing." /></div>
-      <p className="note">{message || 'AI generation requires an OpenAI-compatible provider configured in Vercel. No credentials are stored in this browser.'}</p>
-    </section><aside className="panel"><h2>02 / Your answer queue</h2><div className="actions" style={{marginBottom:12}}><button className="secondary" onClick={exportQueue}>Export queue JSON</button></div>
-      {items.length===0?<div className="empty">No drafts yet. Your first answer starts here.</div>:items.map(item=><article className="item" key={item.id}><span className="tag">{item.status}</span><div style={{fontWeight:700,lineHeight:1.4,marginBottom:8}}>{item.question}</div>{item.url&&<div><a href={item.url} target="_blank" rel="noreferrer">Open Quora question ↗</a></div>}<p>{item.draft.slice(0,240)}{item.draft.length>240?'…':''}</p><div className="actions"><button className="secondary" onClick={()=>{setQuestion(item.question);setUrl(item.url);setNotes(item.notes);setDraft(item.draft);setActiveId(item.id);}}>Edit / load</button><button className="secondary" onClick={()=>navigator.clipboard.writeText(item.draft)}>Copy answer</button><button className="secondary" onClick={()=>update(item.id,{status:item.status==='Published'?'Draft ready':'Published'})}>{item.status==='Published'?'Undo published':'Mark published'}</button><button className="secondary" onClick={()=>setItems(prev=>prev.filter(x=>x.id!==item.id))}>Delete</button></div>{item.status==='Published'&&<div className="field"><label>LIVE ANSWER URL</label><input value={item.publishedUrl||''} onChange={e=>update(item.id,{publishedUrl:e.target.value})} placeholder="Paste your published answer URL" /></div>}</article>)}
-    </aside></div>
-    <p className="note" style={{marginTop:22}}>Privacy note: the queue is stored in localStorage on this browser, not in a shared database. Export it regularly. Never store Quora passwords, session cookies or API keys here. Publishing is intentionally a manual action in Quora.</p>
-  </main>;
+import {useEffect,useMemo,useState} from 'react';
+type Source={url:string;title:string};
+type Candidate={question:string;url:string;relevance:string;opportunity:string;outline:string[];answerDraft:string;commentDrafts:string[]};
+type Entry={id:string;question:string;url:string;answer:string;comments:string[];sources:Source[];opportunity:string;status:'Ready'|'Published';publishedUrl?:string};
+const KEY='quora-answer-studio-v2';
+export default function Home(){
+ const [topic,setTopic]=useState('AI tools, practical automation, cybersecurity fundamentals, Linux and JavaScript for people rebuilding technical skills');
+ const [candidates,setCandidates]=useState<Candidate[]>([]);const [sources,setSources]=useState<Source[]>([]);const [items,setItems]=useState<Entry[]>([]);const [busy,setBusy]=useState(false);const [message,setMessage]=useState('');const [expanded,setExpanded]=useState(-1);const [filter,setFilter]=useState('All');
+ useEffect(()=>{try{const s=localStorage.getItem(KEY);if(s)setItems(JSON.parse(s));}catch{}},[]);useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify(items));}catch{}},[items]);
+ const ready=useMemo(()=>items.filter(x=>x.status==='Ready').length,[items]);const published=useMemo(()=>items.filter(x=>x.status==='Published').length,[items]);
+ async function research(){setBusy(true);setMessage('Searching public web sources and preparing answer packages…');setCandidates([]);setSources([]);try{const r=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic})});const d=await r.json();if(!r.ok)throw new Error(d.error||'Research failed');setCandidates(d.candidates||[]);setSources(d.sources||[]);setMessage((d.candidates||[]).length+' packages prepared. Verify exact questions and facts before use.');}catch(e){setMessage(e instanceof Error?e.message:'Research failed');}finally{setBusy(false);}}
+ function save(c:Candidate){setItems(p=>[{id:crypto.randomUUID(),question:c.question,url:c.url,answer:c.answerDraft,comments:c.commentDrafts||[],sources,opportunity:c.opportunity,status:'Ready'},...p]);setMessage('Saved the complete answer package to this browser.');}
+ async function copy(s:string){try{await navigator.clipboard.writeText(s);setMessage('Copied to clipboard.');}catch{setMessage('Clipboard blocked. Select and copy the text manually.');}}
+ async function openPublish(x:Entry){try{await navigator.clipboard.writeText(x.answer);}catch{}window.open(x.url||('https://www.quora.com/search?q='+encodeURIComponent(x.question)),'_blank','noopener,noreferrer');setMessage('Answer copied and Quora opened. Paste, review and publish using Quora’s normal interface.');}
+ function update(id:string,patch:Partial<Entry>){setItems(p=>p.map(x=>x.id===id?{...x,...patch}:x));}
+ function exportData(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(items,null,2)],{type:'application/json'}));a.download='quora-answer-studio-backup.json';a.click();URL.revokeObjectURL(a.href);}
+ const shown=items.filter(x=>filter==='All'||x.status===filter);
+ return <main className='shell'><header className='top'><div><div className='eyebrow'>AI Automation Lab / Research-to-publish</div><h1 className='brand'>Quora Answer Studio</h1><p className='sub'>Discover questions, research the topic, prepare original answers and useful comment ideas, then move a complete package into your publishing queue.</p></div><span className='pill'>GEMINI + GOOGLE SEARCH</span></header>
+ <div className='statrow'><div className='stat'><b>{candidates.length}</b><span>Research matches</span></div><div className='stat'><b>{ready}</b><span>Ready to publish</span></div><div className='stat'><b>{published}</b><span>Marked published</span></div></div>
+ <section className='panel'><div className='eyebrow'>01 / Daily discovery</div><h2>Find worthwhile Quora questions</h2><div className='field'><label>TOPICS TO RESEARCH</label><textarea value={topic} onChange={e=>setTopic(e.target.value)}/></div><button className='primary' onClick={research} disabled={busy}>{busy?'Researching…':'Research Quora opportunities'}</button><p className='notice'>{message||'Search is grounded by Google Search. Question URLs are shown only when verified in the returned research.'}</p>
+ {candidates.map((c,i)=><article className='candidate' key={i}><div className='candidateTop'><div><span className='tag'>Opportunity {i+1}</span><h3>{c.question}</h3></div><button className='secondary' onClick={()=>setExpanded(expanded===i?-1:i)}>{expanded===i?'Close':'View package'}</button></div><p>{c.relevance}</p><div className='gap'><b>Useful angle:</b> {c.opportunity}</div>{c.url?<a href={c.url} target='_blank' rel='noreferrer'>Verify question on Quora ↗</a>:<small>No exact Quora URL verified. Treat this as an idea, not a confirmed live question.</small>}
+ {expanded===i&&<div className='package'><h4>Answer outline</h4><ol>{c.outline.map((v,j)=><li key={j}>{v}</li>)}</ol><h4>Answer draft</h4><div className='draft'>{c.answerDraft}</div><div className='actions'><button className='secondary' onClick={()=>copy(c.answerDraft)}>Copy answer</button><button className='primary' onClick={()=>save(c)}>Save full package</button></div><h4>Comment / reply drafts</h4>{(c.commentDrafts||[]).map((v,j)=><div className='comment' key={j}><p>{v}</p><button className='secondary' onClick={()=>copy(v)}>Copy comment {j+1}</button></div>)}</div>}</article>)}
+ {sources.length>0&&<div className='sources'><h4>Research sources</h4>{sources.map((s,i)=><a key={i} href={s.url} target='_blank' rel='noreferrer'>{s.title} ↗</a>)}</div>}</section>
+ <section className='panel'><div className='sectionhead'><div><div className='eyebrow'>02 / Publishing desk</div><h2>Ready-to-publish queue</h2></div><div className='actions'><select value={filter} onChange={e=>setFilter(e.target.value)}><option>All</option><option>Ready</option><option>Published</option></select><button className='secondary' onClick={exportData}>Export backup</button></div></div>
+ {shown.length===0?<div className='empty'>No saved packages yet. Research a topic and save one above.</div>:shown.map(x=><article className='item' key={x.id}><span className='tag'>{x.status}</span><h3>{x.question}</h3>{x.url?<a href={x.url} target='_blank' rel='noreferrer'>Open question ↗</a>:<small>Question URL not verified</small>}<details><summary>Answer draft</summary><div className='draft'>{x.answer}</div><button className='secondary' onClick={()=>copy(x.answer)}>Copy answer</button></details><details><summary>Comment drafts ({x.comments.length})</summary>{x.comments.map((c,i)=><div className='comment' key={i}><p>{c}</p><button className='secondary' onClick={()=>copy(c)}>Copy comment {i+1}</button></div>)}</details><details><summary>Sources ({x.sources.length})</summary>{x.sources.map((s,i)=><a className='sourceLink' key={i} href={s.url} target='_blank' rel='noreferrer'>{s.title} ↗</a>)}</details><div className='actions publishActions'><button className='primary' onClick={()=>openPublish(x)}>Copy answer + open Quora</button><button className='secondary' onClick={()=>update(x.id,{status:x.status==='Published'?'Ready':'Published'})}>{x.status==='Published'?'Undo published':'Mark published'}</button><button className='secondary' onClick={()=>setItems(p=>p.filter(y=>y.id!==x.id))}>Delete</button></div>{x.status==='Published'&&<div className='field'><label>LIVE ANSWER URL</label><input value={x.publishedUrl||''} onChange={e=>update(x.id,{publishedUrl:e.target.value})} placeholder='Paste published answer URL'/></div>}</article>)}</section>
+ <footer className='note footer'>Privacy: drafts stay in this browser’s localStorage. Export backups regularly. The Gemini key stays server-side in Vercel. This app does not store Quora passwords or cookies, automate votes/likes, or auto-submit answers. Verify the question, sources and final text before publishing.</footer></main>;
 }
