@@ -1,35 +1,93 @@
-# AI-Automation-Lab
+<p align="center"><img src="assets/automation-hero.svg" alt="AI Automation Lab custom project artwork" width="100%" /></p>
 
-A practical, provider-neutral workspace for experimenting with AI integrations and workflow automation while keeping secrets and data handling explicit.
+<p align="center">
+  <a href="https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml"><img src="https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml/badge.svg" alt="AI Automation Lab tests" /></a>
+  <img src="https://img.shields.io/badge/Node.js-20%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node.js 20+" />
+  <img src="https://img.shields.io/badge/Dependencies-None-1f2937?style=flat-square" alt="No runtime dependencies" />
+  <img src="https://img.shields.io/badge/Demo-Offline%20mock-7c3aed?style=flat-square" alt="Offline mock demo" />
+</p>
 
-## Initial version
+<p align="center"><strong>Small, testable automation workflows with explicit data and provider boundaries.</strong></p>
 
-- A small workflow runner with deterministic mock mode.
-- Provider adapter interface that can be extended without coupling workflow logic to one vendor.
-- Input validation and predictable errors.
-- Local JSON input/output.
+<p align="center">[Architecture](#-architecture) · [Quick start](#-quick-start) · [Privacy](#-privacy--secrets) · [Roadmap](#-roadmap)</p>
+
+## 🧠 What this is
+
+AI-Automation-Lab is a provider-neutral Node.js workspace for experimenting with workflow design before connecting an external AI service. The initial implementation uses a deterministic mock provider, so the demo runs without API keys or network calls.
+
+### Current capabilities
+
+- Provider adapter interface that separates workflow logic from vendor-specific code.
+- Deterministic local mock mode.
+- Input validation and predictable error handling.
+- Local JSON input and structured output.
 - Automated tests using Node.js built-ins.
-- No API key required for the demo.
 
-## Requirements
+## ⚡ Quick start
 
-- Node.js 20+
-- npm
-- No runtime dependencies in the initial version
+**Requirements:** Node.js 20 or newer and npm.
 
-## Quick start
+```powershell
+git clone https://github.com/vishwasaithalz/AI-Automation-Lab.git
+cd AI-Automation-Lab
+npm test
+npm run demo
+```
 
-    npm test
-    npm run demo
+Run the example workflow:
 
-## Security and privacy
+```powershell
+npm run run -- examples/input.json
+```
 
-- Mock mode is the default and makes no network calls.
-- Never commit API keys, tokens, or private prompts containing sensitive information.
-- Store real provider credentials in local environment variables or a secrets manager.
-- Review provider retention and training policies before sending data to any external model.
-- Use synthetic inputs for demonstrations.
+## 🧩 Architecture
 
-## Project direction
+```text
+JSON input
+   |
+   v
+Validation
+   |
+   v
+Workflow runner
+   |
+   +---- Provider adapter
+   |        |
+   |        +---- Mock provider (current default)
+   |
+   v
+Structured result
+```
 
-The goal is to learn robust integration patterns: provider abstraction, schema validation, retries with limits, timeouts, structured logs, and clear failure handling. External provider connectivity will be added only behind an explicit adapter and opt-in configuration.
+The adapter boundary is intentional: workflow code should not need to know which model vendor is used.
+
+## 🔐 Privacy & secrets
+
+- Mock mode is the default and makes no external network calls.
+- Never commit API keys, tokens, private prompts, or personal data.
+- Store credentials in local environment variables or a secrets manager.
+- Review a provider's retention, training, and data-processing terms before sending it information.
+- Use synthetic inputs for public examples and tests.
+
+External provider connectivity is not implemented in this initial version. No live AI inference is claimed.
+
+## 🧪 Development
+
+```powershell
+npm test
+npm run demo
+```
+
+## 🗺️ Roadmap
+
+- [ ] Add schema-based input and output contracts.
+- [ ] Add bounded retries, timeouts, and cancellation.
+- [ ] Add structured logs with secret redaction.
+- [ ] Add one optional provider adapter behind explicit configuration.
+- [ ] Add cost and token accounting before enabling live model calls.
+
+## 🤝 Contributing
+
+Keep provider-specific code isolated and include tests for success, failure, timeout, and invalid input paths. See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+
+<p align="center"><sub>Make the workflow reliable before making it clever.</sub></p>
