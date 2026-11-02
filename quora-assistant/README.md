@@ -11,6 +11,14 @@ A private Next.js workspace for researching public Quora opportunities, drafting
 - Responses are marked no-store and upstream calls use bounded timeouts.
 - No Quora credentials, cookies, votes, likes or auto-publishing are used.
 
+## Stack
+
+- Next.js 16.4.3
+- React 19.2.4
+- TypeScript
+- ESLint 10
+- Google Gemini Interactions API with Google Search for research
+
 ## Local setup
 
 ```powershell
@@ -45,4 +53,4 @@ Both routes require an authenticated Vercel session and same-origin JSON request
 
 ## CI
 
-The Quora Assistant workflow installs dependencies, runs ESLint and builds the Next.js app on pull requests and pushes affecting this directory.
+The Quora Assistant workflow installs dependencies, audits advisories, runs ESLint and production-builds the Next.js app on pull requests and pushes affecting this directory.
