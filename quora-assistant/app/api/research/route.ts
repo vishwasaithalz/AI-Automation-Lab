@@ -13,21 +13,33 @@ type InteractionStep = {
   }>;
 };
 
+function providerFailure(data: any, status: number) {
+  const raw = typeof data?.error?.message === 'string' ? data.error.message : '';
+  const quota = status === 429 || /RESOURCE_EXHAUSTED|quota|rate.?limit/i.test(raw);
+  if (quota) {
+    return jsonNoStore({
+      code: 'QUOTA_EXCEEDED',
+      error: 'Gemini usage limit reached. Check the Google AI project quota, model limits and billing status, then retry after the quota resets or an eligible limit is increased.',
+      help: ['https://ai.dev/rate-limit', 'https://ai.google.dev/gemini-api/docs/rate-limits'],
+    }, 429);
+  }
+  if (status === 401 || status === 403) {
+    return jsonNoStore({ code: 'PROVIDER_AUTH_ERROR', error: 'Google AI rejected the configured API credentials or project permissions. Check the API key and enabled API in Google AI Studio / Google Cloud.' }, 502);
+  }
+  return jsonNoStore({ code: 'PROVIDER_ERROR', error: 'Gemini research request failed. Check provider status and try again.' }, 502);
+}
+
 export async function POST(request: Request) {
   try {
     const body = await readJsonObject(request, 4_096);
     if (body instanceof NextResponse) return body;
-
     const topic = body.topic;
     if (typeof topic !== 'string' || topic.trim().length < 3 || topic.trim().length > 200) {
       return jsonNoStore({ error: 'Enter a topic between 3 and 200 characters.' }, 400);
     }
-
     const key = process.env.AI_API_KEY;
     const model = process.env.AI_MODEL || 'gemini-3.8-flash';
-    if (!key) {
-      return jsonNoStore({ error: 'AI_API_KEY is not configured for this deployment.' }, 503);
-    }
+    if (!key) return jsonNoStore({ error: 'AI_API_KEY is not configured for this deployment.' }, 503);
 
     const prompt =
       'Use Google Search to find up to 5 real, current public Quora questions about: ' +
@@ -37,34 +49,19 @@ export async function POST(request: Request) {
     const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
-      body: JSON.stringify({
-        model,
-        input: prompt,
-        tools: [{ type: 'google_search' }],
-        store: false,
-      }),
+      body: JSON.stringify({ model, input: prompt, tools: [{ type: 'google_search' }], store: false }),
       signal: AbortSignal.timeout(55_000),
       cache: 'no-store',
     });
-
     const data = await response.json().catch(() => null);
-    if (!response.ok) {
-      return jsonNoStore(
-        { error: data?.error?.message || 'Gemini research request failed.' },
-        502,
-      );
-    }
+    if (!response.ok) return providerFailure(data, response.status);
 
     const steps: InteractionStep[] = Array.isArray(data?.steps) ? data.steps : [];
-    const raw =
-      typeof data?.output_text === 'string'
-        ? data.output_text
-        : steps
-            .filter((step) => step.type === 'model_output')
-            .flatMap((step) => step.content || [])
-            .filter((part) => part.type === 'text')
-            .map((part) => part.text || '')
-            .join('');
+    const raw = typeof data?.output_text === 'string' ? data.output_text : steps
+      .filter((step) => step.type === 'model_output')
+      .flatMap((step) => step.content || [])
+      .filter((part) => part.type === 'text')
+      .map((part) => part.text || '').join('');
 
     let parsed: { summary?: string; candidates?: unknown[] };
     try {
@@ -74,48 +71,28 @@ export async function POST(request: Request) {
       return jsonNoStore({ error: 'Research returned invalid JSON. Try a narrower topic.' }, 502);
     }
 
-    const sources = steps
-      .filter((step) => step.type === 'model_output')
+    const sources = steps.filter((step) => step.type === 'model_output')
       .flatMap((step) => step.content || [])
       .flatMap((part) => part.annotations || [])
       .filter((annotation) => annotation.type === 'url_citation' && annotation.url)
       .map((annotation) => ({ url: annotation.url!, title: annotation.title || annotation.url! }));
-
     const uniqueSources = Array.from(new Map(sources.map((source) => [source.url, source])).values());
     const candidates = (Array.isArray(parsed.candidates) ? parsed.candidates : [])
       .slice(0, 5)
-      .filter(
-        (item: any) =>
-          item &&
-          typeof item.question === 'string' &&
-          typeof item.answerDraft === 'string' &&
-          item.question.length <= 1_000 &&
-          item.answerDraft.length <= 8_000,
-      )
+      .filter((item: any) => item && typeof item.question === 'string' &&
+        typeof item.answerDraft === 'string' && item.question.length <= 1_000 && item.answerDraft.length <= 8_000)
       .map((item: any) => ({
         question: item.question,
-        url:
-          typeof item.url === 'string' && item.url.startsWith('https://www.quora.com/')
-            ? item.url
-            : '',
+        url: typeof item.url === 'string' && item.url.startsWith('https://www.quora.com/') ? item.url : '',
         relevance: typeof item.relevance === 'string' ? item.relevance.slice(0, 500) : '',
         opportunity: typeof item.opportunity === 'string' ? item.opportunity.slice(0, 1_000) : '',
-        outline: Array.isArray(item.outline)
-          ? item.outline.filter((value: unknown) => typeof value === 'string').slice(0, 5)
-          : [],
+        outline: Array.isArray(item.outline) ? item.outline.filter((value: unknown) => typeof value === 'string').slice(0, 5) : [],
         answerDraft: item.answerDraft,
-        commentDrafts: Array.isArray(item.commentDrafts)
-          ? item.commentDrafts
-              .filter((value: unknown) => typeof value === 'string')
-              .slice(0, 2)
-          : [],
+        commentDrafts: Array.isArray(item.commentDrafts) ? item.commentDrafts.filter((value: unknown) => typeof value === 'string').slice(0, 2) : [],
       }));
-
     return jsonNoStore({
       summary: typeof parsed.summary === 'string' ? parsed.summary.slice(0, 1_000) : 'Research complete.',
-      candidates,
-      sources: uniqueSources.slice(0, 20),
-      model,
+      candidates, sources: uniqueSources.slice(0, 20), model,
     });
   } catch {
     return jsonNoStore({ error: 'Unexpected research error. Please try again.' }, 500);
