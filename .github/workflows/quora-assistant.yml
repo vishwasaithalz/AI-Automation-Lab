@@ -31,6 +31,8 @@ jobs:
         run: |
           npm audit --json > npm-audit.json || true
           node -e "const a=require('./npm-audit.json'); for (const [name,v] of Object.entries(a.vulnerabilities || {})) console.log(JSON.stringify({name,severity:v.severity,range:v.range,fixAvailable:v.fixAvailable,via:v.via.map(x=>typeof x==='string'?x:x.title)}))"
+      - name: Enforce clean dependency audit
+        run: npm audit --audit-level=moderate
       - name: Lint
         run: npm run lint
       - name: Production build
