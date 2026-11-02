@@ -14,7 +14,7 @@ A private Next.js workspace for researching public Quora opportunities, drafting
 ## Stack
 
 - Next.js 16.4.3
-- React 19.2.4
+- React 19.3.1
 - TypeScript
 - ESLint 10
 - Google Gemini Interactions API with Google Search for research
