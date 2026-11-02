@@ -55,7 +55,6 @@ export async function POST(request: Request) {
         model,
         input,
         store: false,
-        generation_config: { temperature: 0.65 },
       }),
       signal: AbortSignal.timeout(55_000),
       cache: 'no-store',
