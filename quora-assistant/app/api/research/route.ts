@@ -42,7 +42,6 @@ export async function POST(request: Request) {
         input: prompt,
         tools: [{ type: 'google_search' }],
         store: false,
-        generation_config: { temperature: 0.35 },
       }),
       signal: AbortSignal.timeout(55_000),
       cache: 'no-store',
