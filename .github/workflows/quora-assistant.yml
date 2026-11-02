@@ -1,0 +1,41 @@
+name: Quora Assistant CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "quora-assistant/**"
+      - ".github/workflows/quora-assistant.yml"
+  pull_request:
+    paths:
+      - "quora-assistant/**"
+      - ".github/workflows/quora-assistant.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: quora-assistant
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Apply non-breaking dependency security fixes
+        run: npm audit fix
+      - name: Summarize dependency advisories
+        run: |
+          npm audit --json > npm-audit.json || true
+          node -e "const a=require('./npm-audit.json'); for (const [name,v] of Object.entries(a.vulnerabilities || {})) console.log(JSON.stringify({name,severity:v.severity,range:v.range,fixAvailable:v.fixAvailable,via:v.via.map(x=>typeof x==='string'?x:x.title)}))"
+      - name: Enforce clean dependency audit
+        run: npm audit --audit-level=moderate
+      - name: Lint
+        run: npm run lint
+      - name: Production build
+        run: npm run build
