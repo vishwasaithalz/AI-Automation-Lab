@@ -27,6 +27,10 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install
+      - name: Summarize dependency advisories
+        run: |
+          npm audit --json > npm-audit.json || true
+          node -e "const a=require('./npm-audit.json'); for (const [name,v] of Object.entries(a.vulnerabilities || {})) console.log(JSON.stringify({name,severity:v.severity,range:v.range,fixAvailable:v.fixAvailable,via:v.via.map(x=>typeof x==='string'?x:x.title)}))"
       - name: Lint
         run: npm run lint
       - name: Production build
