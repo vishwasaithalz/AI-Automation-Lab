@@ -7,6 +7,8 @@ const KEY='quora-answer-studio-v2';
 export default function Home(){
  const [topic,setTopic]=useState('AI tools, practical automation, cybersecurity fundamentals, Linux and JavaScript for people rebuilding technical skills');
  const [candidates,setCandidates]=useState<Candidate[]>([]);const [sources,setSources]=useState<Source[]>([]);const [items,setItems]=useState<Entry[]>([]);const [busy,setBusy]=useState(false);const [message,setMessage]=useState('');const [expanded,setExpanded]=useState(-1);const [filter,setFilter]=useState('All');
+ // Hydrate the browser-only local queue after the server-rendered shell is mounted.
+ // eslint-disable-next-line react-hooks/set-state-in-effect
  useEffect(()=>{try{const s=localStorage.getItem(KEY);if(s)setItems(JSON.parse(s));}catch{}},[]);useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify(items));}catch{}},[items]);
  const ready=useMemo(()=>items.filter(x=>x.status==='Ready').length,[items]);const published=useMemo(()=>items.filter(x=>x.status==='Published').length,[items]);
  async function research(){setBusy(true);setMessage('Searching public web sources and preparing answer packages…');setCandidates([]);setSources([]);try{const r=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({topic})});const d=await r.json();if(!r.ok)throw new Error(d.error||'Research failed');setCandidates(d.candidates||[]);setSources(d.sources||[]);setMessage((d.candidates||[]).length+' packages prepared. Verify exact questions and facts before use.');}catch(e){setMessage(e instanceof Error?e.message:'Research failed');}finally{setBusy(false);}}
