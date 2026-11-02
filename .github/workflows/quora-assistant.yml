@@ -1,0 +1,33 @@
+name: Quora Assistant CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "quora-assistant/**"
+      - ".github/workflows/quora-assistant.yml"
+  pull_request:
+    paths:
+      - "quora-assistant/**"
+      - ".github/workflows/quora-assistant.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: quora-assistant
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Production build
+        run: npm run build
