@@ -9,7 +9,7 @@
 
 <p align="center"><strong>Small, testable automation workflows with explicit data and provider boundaries.</strong></p>
 
-<p align="center">[Architecture](#-architecture) · [Quick start](#-quick-start) · [Privacy](#-privacy--secrets) · [Roadmap](#-roadmap)</p>
+<p align="center"><a href="#-architecture">Architecture</a> · <a href="#-quick-start">Quick start</a> · <a href="#-privacy--secrets">Privacy</a> · <a href="#-roadmap">Roadmap</a></p>
 
 ## 🧠 What this is
 
