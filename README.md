@@ -91,3 +91,16 @@ npm run demo
 Keep provider-specific code isolated and include tests for success, failure, timeout, and invalid input paths. See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 <p align="center"><sub>Make the workflow reliable before making it clever.</sub></p>
+
+
+<!-- KARMA VISUAL IDENTITY: START -->
+<div align="center">
+
+**WORKFLOWS / SAFETY / AUTOMATION**
+
+<img src="https://img.shields.io/badge/KARMA-SYSTEMS-0f172a?style=for-the-badge" alt="KARMA Systems" /> <img src="https://img.shields.io/badge/BUILD-VERIFY-0f766e?style=for-the-badge" alt="Build and verify" />
+
+<sub>Designed for clarity. Built for evidence. No invented status metrics.</sub>
+
+</div>
+<!-- KARMA VISUAL IDENTITY: END -->
