@@ -1,4 +1,5 @@
 import {lookup} from 'node:dns/promises';
+import {pinnedGet} from './pinned-http.mjs';
 import {isIP} from 'node:net';
 const BLOCKED=/^(localhost|.*\.localhost|.*\.local|.*\.internal)$/i;
 const PRIVATE_IP=/^(?:0\.|10\.|127\.|169\.254\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|224\.|240\.)/;
@@ -10,17 +11,18 @@ export function validateTarget(target,allowedHosts){
  if(u.pathname!=='/')throw Error('Use origin only');
  return u.origin;
 }
-export async function auditWebsite({target,allowedHosts,fetchImpl=fetch,resolveImpl=lookup}){
+export async function auditWebsite({target,allowedHosts,fetchImpl=null,resolveImpl=lookup}){
  const origin=validateTarget(target,allowedHosts);
  const host=new URL(origin).hostname;
  const addresses=await resolveImpl(host,{all:true,verbatim:true});
  if(!addresses.length||addresses.some(x=>!publicIP(x.address)))throw Error('Non-public DNS address');
+ const selected=addresses.find(x=>isIP(x.address)===4)??addresses[0];
  const paths=['/','/robots.txt','/sitemap.xml'];
  const output={origin,mode:'read-only',pages:[],checks:[]};
  for(const path of paths){
   const url=origin+path;
   let response;
-  try{response=await fetchImpl(url,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(8000),headers:{'accept':'text/html,text/plain,application/xml;q=0.8','user-agent':'KARMA-ReadOnly-Audit/1.0'}})}
+  try{response=fetchImpl?await fetchImpl(url,{method:'GET',redirect:'manual',signal:AbortSignal.timeout(8000),headers:{'accept':'text/html,text/plain,application/xml;q=0.8','user-agent':'KARMA-ReadOnly-Audit/1.0'}}):await pinnedGet(url,selected.address)}
   catch(e){output.pages.push({path,error:e.name==='TimeoutError'?'timeout':'request failed'});continue}
   const type=response.headers.get('content-type')??'';
   const size=Number(response.headers.get('content-length')??0);
