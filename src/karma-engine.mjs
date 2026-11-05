@@ -26,7 +26,7 @@ export function validate(plan,policy=POLICY){
 function redact(x){
  if(Array.isArray(x))return x.map(redact);
  if(x&&typeof x==='object')return Object.fromEntries(Object.entries(x).map(([k,v])=>[k,/(secret|token|password|api.?key|credential|authorization|private.?key)/i.test(k)?'[REDACTED]':redact(v)]));
- return typeof x==='string'?x.replace(/(Bearer\\s+)[A-Za-z0-9._~+/-]+/gi,'$1[REDACTED]'):x;
+ return typeof x==='string'?x.replace(/(Bearer\s+)[A-Za-z0-9._~+/-]+/gi,'$1[REDACTED]'):x;
 }
 const CHECKS={
 'website-seo':['mobile viewport','contrast','title/meta','canonical','robots/sitemap','links'],
@@ -41,12 +41,12 @@ export function run(plan,policy=POLICY){
  if(policy.mode!=='mock'||policy.allow_network||policy.allow_external_actions||policy.allow_memory_persistence||policy.allow_publish)return {ok:false,errors:['Only isolated mock mode supported'],results:[]};
  return {ok:true,schema_version:1,mode:'mock',summary:{jobs:plan.jobs.length,executed:0,external_actions:0},results:plan.jobs.map(j=>({id:j.id,engine:j.engine,action:j.action,status:['publishing','memory-isolation'].includes(j.engine)?'approval_required':'prepared_mock',executed:false,network_used:false,checks:CHECKS[j.engine],inputs:redact(j.inputs??{}),next_step:'Review and implement an independently tested adapter before real execution'}))};
 }
-export function markdown(report){return ['# KARMA mock review','','No external actions were performed. No real audit, video, or publication is claimed.','',...(report.results??[]).flatMap(r=>['## '+r.id,'Engine: '+r.engine+'; action: '+r.action+'; status: '+r.status,'Checks: '+r.checks.join(', '),''])].join('\\n')}
+export function markdown(report){return ['# KARMA mock review','','No external actions were performed. No real audit, video, or publication is claimed.','',...(report.results??[]).flatMap(r=>['## '+r.id,'Engine: '+r.engine+'; action: '+r.action+'; status: '+r.status,'Checks: '+r.checks.join(', '),''])].join('\n')}
 export function cli(args=process.argv.slice(2)){
  if(args.length<1||args.length>3)throw new Error('Usage: node src/karma-engine.mjs plan.json [out.json] [out.md]');
  const result=run(JSON.parse(readFileSync(resolve(args[0]),'utf8')));
- for(const [i,content] of [[1,JSON.stringify(result,null,2)+'\\n'],[2,markdown(result)]])if(args[i]){const p=resolve(args[i]);mkdirSync(dirname(p),{recursive:true});writeFileSync(p,content,{flag:'wx'})}
- process.stdout.write(JSON.stringify(result,null,2)+'\\n');
+ for(const [i,content] of [[1,JSON.stringify(result,null,2)+'\n'],[2,markdown(result)]])if(args[i]){const p=resolve(args[i]);mkdirSync(dirname(p),{recursive:true});writeFileSync(p,content,{flag:'wx'})}
+ process.stdout.write(JSON.stringify(result,null,2)+'\n');
  if(!result.ok)process.exitCode=1;
 }
 if(process.argv[1]&&resolve(process.argv[1])===resolve(fileURLToPath(import.meta.url)))cli();
