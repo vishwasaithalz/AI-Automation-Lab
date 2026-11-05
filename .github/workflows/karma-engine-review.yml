@@ -1,0 +1,16 @@
+name: KARMA Engine Mock Review
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/karma-engine.test.mjs
+      - run: node src/karma-engine.mjs examples/karma-engine-plan.json
