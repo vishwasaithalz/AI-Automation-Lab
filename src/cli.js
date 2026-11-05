@@ -37,7 +37,13 @@ async function main() {
 
   try {
     const report = await runWorkflow(input, new MockProvider());
-    process.stdout.write(JSON.stringify(report, null, 2) + "\n");
+    const serialized = JSON.stringify(report, null, 2) + "\n";
+    if (outputPath) {
+      await writeFile(outputPath, serialized, { encoding: "utf8", flag: "wx" });
+      process.stdout.write(`Workflow report written to: ${outputPath}\n`);
+    } else {
+      process.stdout.write(serialized);
+    }
   } catch (error) {
     console.error("Workflow error: " + error.message);
     process.exitCode = 2;
