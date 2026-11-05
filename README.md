@@ -104,3 +104,7 @@ Keep provider-specific code isolated and include tests for success, failure, tim
 
 </div>
 <!-- KARMA VISUAL IDENTITY: END -->
+
+
+<p align="center"><img src="assets/karma-signal.svg" alt="Animated KARMA automation signal" width="100%" /></p>
+<details><summary><strong>Animated project gallery</strong></summary><p><a href="https://karma-ops-monitor.vercel.app">Open the KARMA interactive gallery and original audio controls</a>.</p></details>
