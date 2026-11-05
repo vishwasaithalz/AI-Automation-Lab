@@ -1,10 +1,17 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { MockProvider } from "./providers/mock-provider.js";
 import { runWorkflow } from "./workflow.js";
 
 async function main() {
   const args = process.argv.slice(2);
   const demo = args.includes("--demo");
+  const outputIndex = args.indexOf("--output");
+  const outputPath = outputIndex >= 0 ? args[outputIndex + 1] : null;
+  if (outputIndex >= 0 && (!outputPath || outputPath.startsWith("--"))) {
+    console.error("--output requires a file path.");
+    process.exitCode = 2;
+    return;
+  }
   let input;
 
   if (demo) {
