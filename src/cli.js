@@ -20,7 +20,7 @@ async function main() {
       context: "Synthetic demo context: review a small project, run tests, document limitations."
     };
   } else {
-    const file = args.find((arg) => !arg.startsWith("--"));
+    const file = args.find((arg, index) => !arg.startsWith("--") && index !== outputIndex + 1);
     if (!file) {
       console.error("Usage: npm run demo OR npm run run -- path/to/input.json");
       process.exitCode = 2;
