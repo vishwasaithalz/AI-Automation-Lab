@@ -17,6 +17,11 @@ test('website read-only SEO probe with injected network',async()=>{
  assert.equal(r.pages.length,3);assert.equal(r.checks.filter(x=>x.passed).length,8);assert.deepEqual(paths.map(x=>x[1]),['GET','GET','GET']);assert(paths.every(x=>x[2]==='manual'));
 });
 test('website blocks private DNS resolution',async()=>{await assert.rejects(()=>auditWebsite({target:'https://example.com/',allowedHosts:['example.com'],resolveImpl:async()=>[{address:'127.0.0.1'}],fetchImpl:()=>{throw Error('should not fetch')}}),/Non-public DNS/)});
+test('website rejects IPv4-mapped loopback and private IPv6 DNS',async()=>{
+ for(const address of ['::ffff:127.0.0.1','::ffff:10.0.0.1','fc00::1','fe80::1']){
+  await assert.rejects(()=>auditWebsite({target:'https://example.com/',allowedHosts:['example.com'],resolveImpl:async()=>[{address}],fetchImpl:()=>{throw Error('must not fetch')}}),/Non-public DNS/);
+ }
+});
 test('GitHub CI rejects non-allowlisted repositories',()=>assert.throws(()=>validateRepo('other/repo',['owner/repo'])));
 test('GitHub CI returns public-only metadata without writes',async()=>{
  const calls=[];
