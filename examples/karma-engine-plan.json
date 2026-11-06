@@ -1,0 +1,40 @@
+{
+  "jobs": [
+    {
+      "id": "web-audit",
+      "engine": "website-seo",
+      "action": "audit-seo",
+      "inputs": {
+        "target": "synthetic-staging"
+      }
+    },
+    {
+      "id": "source-review",
+      "engine": "security-ci",
+      "action": "review-source"
+    },
+    {
+      "id": "video-preview",
+      "engine": "video-music",
+      "action": "prepare-video"
+    },
+    {
+      "id": "money-research",
+      "engine": "research-career-earnings",
+      "action": "draft-offer"
+    },
+    {
+      "id": "memory-eval",
+      "engine": "memory-isolation",
+      "action": "evaluate-memory",
+      "inputs": {
+        "dataset": "synthetic"
+      }
+    },
+    {
+      "id": "publishing-review",
+      "engine": "publishing",
+      "action": "prepare-publication"
+    }
+  ]
+}
