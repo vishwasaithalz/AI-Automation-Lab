@@ -1,8 +1,14 @@
-<!-- KARMA PROJECT IDENTITY / original art -->
-<p align="center"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/projects/automation-lab-v2.svg" alt="🤖 AI Automation Lab: Provider-neutral workflow experiments" width="100%" /></p>
+<!-- KARMA PROJECT IDENTITY / compact visual navigation -->
+<p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/tiles/automation-lab.svg" width="68%" alt="Open 🤖 AI Automation Lab project" /></a></p>
 <p align="center"><strong>🤖 AI Automation Lab</strong> · Provider-neutral workflow experiments</p>
+<p align="center">
+<a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/nav/code.svg" width="46%" alt="Explore automation source" /></a>
+<a href="https://vishwasaithalz.github.io/vishwasaithalz/arcade/#terminal"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/nav/terminal.svg" width="46%" alt="Explore the browser terminal" /></a>
+</p>
 
-<p align="center"><img src="assets/automation-hero.svg" alt="AI Automation Lab custom project artwork" width="100%" /></p>
+<details><summary>🎨 Open original full-size project artwork</summary>
+<p align="center"><img src="assets/automation-hero.svg" alt="AI Automation Lab custom project artwork" width="90%" /></p>
+</details>
 
 <p align="center">
   <a href="https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml"><img src="https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml/badge.svg" alt="AI Automation Lab tests" /></a>
