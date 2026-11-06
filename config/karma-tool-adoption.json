@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "mode": "review_only",
+  "auto_install": false,
+  "auto_publish": false,
+  "auto_deploy": false,
+  "auto_merge": false,
+  "enable_agent_memory": false,
+  "preserve_existing_schedules": true,
+  "repositories": [
+    "Nutlope/hallmark",
+    "cloudflare/security-audit-skill",
+    "heygen-com/hyperframes",
+    "anthropics/knowledge-work-plugins",
+    "thedotmack/claude-mem",
+    "pbakaus/impeccable",
+    "max-sixty/worktrunk"
+  ],
+  "workstreams": [
+    "windows-recovery",
+    "engineering-audit",
+    "control-center",
+    "build-journal",
+    "quora",
+    "instagram",
+    "music",
+    "money-lab",
+    "cybersecurity-learning"
+  ],
+  "min_review_checks": [
+    "source-provenance",
+    "license",
+    "dependency-lockfile",
+    "install-scripts",
+    "permissions",
+    "network-egress",
+    "sensitive-data",
+    "resource-needs",
+    "staging-test",
+    "rollback"
+  ],
+  "approval_required_for": [
+    "install",
+    "execute-third-party-code",
+    "write-production",
+    "deploy",
+    "publish",
+    "send-messages",
+    "delete",
+    "expense",
+    "enable-cloud-memory"
+  ]
+}
