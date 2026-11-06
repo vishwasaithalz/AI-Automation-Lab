@@ -1,3 +1,7 @@
+<!-- KARMA PROJECT IDENTITY / original art -->
+<p align="center"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/projects/automation-lab-v2.svg" alt="🤖 AI Automation Lab: Provider-neutral workflow experiments" width="100%" /></p>
+<p align="center"><strong>🤖 AI Automation Lab</strong> · Provider-neutral workflow experiments</p>
+
 <p align="center"><img src="assets/automation-hero.svg" alt="AI Automation Lab custom project artwork" width="100%" /></p>
 
 <p align="center">
