@@ -37,8 +37,16 @@ npm run demo
 Run the example workflow:
 
 ```powershell
-npm run run -- examples/input.json\n\nExport a workflow result to a new JSON file:\n\n```powershell\nnpm run run -- examples/input.json --output reports\\workflow.json\n```\n\nThe export uses exclusive file creation and will not overwrite an existing report.
+npm run run -- examples/input.json
 ```
+
+Export a workflow result to a new JSON file:
+
+```powershell
+npm run run -- examples/input.json --output reports\workflow.json
+```
+
+The export uses exclusive file creation and will not overwrite an existing report.
 
 ## 🧩 Architecture
 
