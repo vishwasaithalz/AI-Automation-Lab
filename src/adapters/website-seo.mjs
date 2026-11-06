@@ -2,8 +2,8 @@ import {lookup} from 'node:dns/promises';
 import {pinnedGet} from './pinned-http.mjs';
 import {isIP} from 'node:net';
 const BLOCKED=/^(localhost|.*\.localhost|.*\.local|.*\.internal)$/i;
-const PRIVATE_IP=/^(?:0\.|10\.|127\.|169\.254\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|224\.|240\.)/;
-function publicIP(ip){if(isIP(ip)===4)return !PRIVATE_IP.test(ip)&&ip!=='255.255.255.255';if(isIP(ip)===6)return !(/^(::1|::|fc|fd|fe[89ab]|ff)/i.test(ip)||ip.startsWith('::ffff:'));return false}
+const PRIVATE_IP=/^(?:0\.|10\.|127\.|169\.254\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|100\.(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.|192\.0\.|192\.0\.2\.|198\.(?:1[89]|51)\.|203\.0\.113\.|224\.|240\.)/;
+function publicIP(ip){if(isIP(ip)===4)return !PRIVATE_IP.test(ip)&&ip!=='255.255.255.255';if(isIP(ip)===6)return !/^(::1$|::$|fc|fd|fe[89ab]|ff|::ffff:|2001:db8:)/i.test(ip);return false}
 export function validateTarget(target,allowedHosts){
  const u=new URL(target);
  if(u.protocol!=='https:'||u.username||u.password||u.port||u.hash||u.search)throw Error('HTTPS hostname-only target required, without credentials, port, fragment or query');
