@@ -1,0 +1,50 @@
+name: KARMA Chromium E2E and responsive screenshots
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tests/e2e/**'
+      - '.github/workflows/karma-browser-e2e.yml'
+      - 'projects/**/web/**'
+  pull_request:
+    paths:
+      - 'tests/e2e/**'
+      - '.github/workflows/karma-browser-e2e.yml'
+      - 'projects/**/web/**'
+  schedule:
+    - cron: '15 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Install pinned Playwright test runner in CI only
+        run: npm install --no-save --package-lock=false --ignore-scripts @playwright/test@1.65.0
+      - name: Install Chromium and browser dependencies
+        run: npx playwright install --with-deps chromium
+      - name: Run real-browser integration and mobile tests
+        run: npx playwright test tests/e2e/karma-workbenches.spec.mjs --workers=1 --reporter=line
+        env:
+          CI: 'true'
+      - name: Upload browser screenshots and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: karma-browser-evidence
+          path: |
+            e2e-artifacts/screenshots/
+            test-results/
+          retention-days: 7
+          if-no-files-found: warn
