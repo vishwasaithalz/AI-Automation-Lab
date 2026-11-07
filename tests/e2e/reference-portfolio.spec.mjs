@@ -41,5 +41,12 @@ test('capture public portfolio reference without authentication',async({page},te
  await mkdir('e2e-artifacts/screenshots',{recursive:true});
  await writeFile('e2e-artifacts/portfolio-reference.json',JSON.stringify(info,null,2),'utf8');
  await page.screenshot({path:'e2e-artifacts/screenshots/vishwasaithal-ai-studio-reference.png',fullPage:true});
+ const projects = page.locator('#projects');
+ if (await projects.count()) {
+  await projects.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1100);
+  await projects.screenshot({path:'e2e-artifacts/screenshots/vishwasaithal-portfolio-project-cards.png'});
+ }
+
  console.log('PORTFOLIO_REFERENCE_CAPTURED: '+JSON.stringify(info).slice(0,7000));
 });
