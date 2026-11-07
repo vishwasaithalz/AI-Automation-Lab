@@ -1,0 +1,36 @@
+name: KARMA public career evidence
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 8 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - scripts/career-readiness.mjs
+      - tests/career-readiness.test.mjs
+      - .github/workflows/career-evidence.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: karma-career-evidence
+  cancel-in-progress: false
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Verify evidence safety tests
+        run: node --test tests/career-readiness.test.mjs
+      - name: Summarize public portfolio evidence
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/career-readiness.mjs
