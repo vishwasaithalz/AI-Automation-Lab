@@ -21,6 +21,23 @@
 
 <p align="center"><a href="#-architecture">Architecture</a> · <a href="#-quick-start">Quick start</a> · <a href="#-privacy--secrets">Privacy</a> · <a href="#-roadmap">Roadmap</a></p>
 
+## 🚀 KARMA engineering workbenches
+
+**Six live interactive prototypes** with independent Vercel projects, GitHub source and automated checks. Each app is a small, measurable demonstration and **does not claim production security certification or enterprise-scale performance**.
+
+| Lab | Try the live app | Review the implementation |
+|:--|:--|:--|
+| **SentinelPulse** | [Inspect an L7 request](https://karma-sentinelpulse.vercel.app/) | [Python checks, browser workbench, tests](projects/SentinelPulse/) |
+| **SERPMatrix** | [Audit SEO metadata](https://karma-serpmatrix.vercel.app/) | [HTML analyzer, sitemap tool, tests](projects/SERPMatrix/) |
+| **CloudHardener** | [Analyze Kubernetes JSON](https://karma-cloudhardener.vercel.app/) | [Read-only policy checker and tests](projects/CloudHardener/) |
+| **ApexVitals** | [Inspect asset performance](https://karma-apexvitals.vercel.app/) | [Glyph and compression tools](projects/ApexVitals/) |
+| **ZeroAuth** | [Try real browser WebAuthn](https://karma-zeroauth.vercel.app/) | [Authenticator code, cryptographic tests](projects/ZeroAuth/) |
+| **Spectra UI** | [Explore accessible components](https://karma-spectra-ui.vercel.app/) | [Contrast algorithm, UI and tests](projects/SpectraUI/) |
+
+[All six labs](projects/) · [Automated live checks](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/karma-live-endpoints.yml) · [Repository test suite](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml)
+
+These are distinct applications inside one GitHub repository, **not** six separate repositories. Secure auth, high-throughput filtering, real cluster auditing and unverified numeric benchmarks remain future work.
+
 ## 🧠 What this is
 
 AI-Automation-Lab is a provider-neutral Node.js workspace for experimenting with workflow design before connecting an external AI service. The initial implementation uses a deterministic mock provider, so the demo runs without API keys or network calls.
