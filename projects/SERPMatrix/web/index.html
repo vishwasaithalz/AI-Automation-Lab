@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SERPMatrix | KARMA Engineering Lab</title><meta name="description" content="Page structure auditor">
+<style>
+:root{color-scheme:dark;--bg:#0c121c;--panel:#152131;--line:#2a3b4c;--ink:#f1f6fb;--sub:#aabac9;--accent:#9fdac6}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(ellipse at 80% -20%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 50%),linear-gradient(155deg,#0c121c,#141e2b 65%,#0a151d);min-height:100vh;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}a:hover{color:var(--accent)}button,input,textarea,select{font:inherit}button{cursor:pointer;background:var(--accent);color:#071018;border:0;border-radius:9px;padding:12px 18px;font-weight:750}button.alt{background:#233447;color:#e6f2f8;border:1px solid var(--line)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:2px}
+header{display:flex;align-items:center;gap:14px;justify-content:space-between;padding:22px max(24px,calc((100vw - 1160px)/2));border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:12px;align-items:center;font-size:14px;font-weight:800;letter-spacing:.12em}.dot{width:13px;height:13px;background:var(--accent);box-shadow:0 0 22px var(--accent);border-radius:2px;transform:rotate(45deg)}
+header nav{display:flex;flex-wrap:wrap;gap:22px;font-size:13px;color:var(--sub)}header nav a{text-decoration:none}
+main{max-width:1160px;margin:auto;padding:52px 24px 100px}.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:800}
+h1{font-size:clamp(40px,7vw,76px);letter-spacing:-.064em;line-height:1.03;margin:18px 0 16px;max-width:940px}h1 em{font-style:normal;color:var(--accent)}.lead{font-size:clamp(16px,2vw,20px);color:var(--sub);max-width:740px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 40px}.pill{font-size:11px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);color:#cde0ec;border-radius:5px;padding:7px 11px;background:#152231}
+.work{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start}.panel{padding:27px;background:linear-gradient(150deg,rgba(28,45,61,.96),rgba(16,29,42,.97));border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 40px #0002;min-width:0}.panel h2{font-size:18px;letter-spacing:-.02em;margin:0 0 6px}.sub{color:var(--sub);font-size:13px;margin:0 0 22px}.field{display:grid;gap:7px;margin:15px 0}label{font-size:12px;font-weight:750;letter-spacing:.04em;color:#dceaf4}textarea,input,select{width:100%;background:#0e1825;color:#e9f4fc;border:1px solid #405269;border-radius:7px;padding:12px}textarea{min-height:175px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;line-height:1.6}input,select{min-height:43px}select{appearance:auto}
+.buttons{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.result{border:1px solid var(--line);background:#0d1925;border-radius:8px;padding:18px;min-height:170px;white-space:pre-wrap;overflow:auto;font:13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#c7e3eb}.stat{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:800}
+footer{border-top:1px solid var(--line);padding:30px 24px;text-align:center;color:var(--sub);font-size:12px;max-width:1160px;margin:auto}
+code{color:#bce9e9;overflow-wrap:anywhere}.notice{padding:16px 18px;border:1px solid #566474;background:#1d2d3d;border-radius:8px;font-size:13px;line-height:1.6;color:#e2ecf3;margin-top:20px}
+@media(max-width:800px){.work{grid-template-columns:1fr}main{padding-top:36px}.panel{padding:20px}header{padding:20px 24px}header nav{gap:10px}h1{font-size:42px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style></head>
+<body><header><div class="brand"><span class="dot" aria-hidden="true"></span>KARMA <span style="color:var(--accent)">/</span> ENGINEERING LAB</div><nav><a href="https://github.com/vishwasaithalz/AI-Automation-Lab/tree/main/projects/SERPMatrix">SOURCE + TESTS</a><a href="https://github.com/vishwasaithalz">PROFILE</a></nav></header>
+<main><div class="eyebrow">02 / Technical SEO · Interactive experimental prototype</div><h1>SERPMatrix<br><em>Page structure auditor</em></h1>
+<p class="lead">Paste HTML, analyze page metadata and structured data locally, then generate valid XML sitemap entries. A focused workbench for verifiable technical SEO checks.</p><div class="pills"><span class="pill">Metadata auditing</span><span class="pill">JSON-LD syntax</span><span class="pill">Layout risk flags</span><span class="pill">HTTPS sitemap</span></div>
+<div class="work"><section class="panel"><h2>Workbench</h2><p class="sub">Explore the actual client-side logic. Your inputs stay in this browser tab.</p><div class="field"><label for="htmlinput">HTML source to audit</label><textarea id="htmlinput" spellcheck="false"><!doctype html>
+<html><head><title>KARMA Example Page</title>
+<meta name="description" content="An illustrative page">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://example.org/">
+</head><body><h1>Example</h1>
+<img src="hero.jpg" alt="Example hero"></body></html></textarea></div>
+ <div class="field"><label for="urlinput">Sitemap HTTPS URLs (one per line)</label><textarea id="urlinput" style="min-height:76px">https://example.org/
+https://example.org/projects/</textarea></div>
+ <div class="buttons"><button id="audit">Audit HTML</button><button class="alt" id="sitemap">Generate sitemap</button></div></section>
+<section class="panel"><h2>Execution readout</h2><p class="sub">Demonstration results, not live infrastructure measurements.</p><div class="stat" id="status">READY · LOCAL MODE</div><div id="result" class="result" aria-live="polite">Run an example to view the local result.</div></section></div><aside class="notice"><strong>Engineering boundary:</strong> This is an offline structural audit. It does not crawl production websites, verify Search Console, resolve real Knowledge Graph entities or measure Core Web Vitals in a real browser.</aside></main>
+<footer>© KARMA.EXE LAB · Working prototype, not production infrastructure · No personal data or network probes are transmitted.</footer>
+<script>
+"use strict";
+const result=document.getElementById("result"),status=document.getElementById("status");
+const show=(s,v)=>{status.textContent=s;result.textContent=typeof v==="string"?v:JSON.stringify(v,null,2)};
+document.getElementById("audit").addEventListener("click",()=>{
+ const doc=new DOMParser().parseFromString(document.getElementById("htmlinput").value,"text/html");
+ const m=(name)=>doc.querySelector('meta[name="'+name+'"]')?.getAttribute("content")||"";
+ const title=doc.title.trim(),canonical=doc.querySelector('link[rel~="canonical"]')?.getAttribute("href")||"";
+ const images=[...doc.querySelectorAll("img")],missingDimensions=images.filter(x=>!x.getAttribute("width")||!x.getAttribute("height")).length;
+ const jsonld=[...doc.querySelectorAll('script[type="application/ld+json"]')];let invalid=0;
+ for(const node of jsonld){try{JSON.parse(node.textContent||"")}catch{invalid++}}
+ const findings=[];
+ if(!title)findings.push("missing_title");
+ if(!m("description"))findings.push("missing_description");
+ if(!m("viewport"))findings.push("missing_viewport");
+ if(!canonical)findings.push("missing_canonical");
+ if(missingDimensions)findings.push("images_without_dimensions: "+missingDimensions);
+ if(invalid)findings.push("invalid_jsonld_blocks: "+invalid);
+ show(findings.length?"REVIEW REQUIRED":"BASIC CHECKS PASSED",{title,description:m("description"),viewport:m("viewport"),canonical,robots:m("robots"),images:images.length,missingDimensions,jsonldBlocks:jsonld.length,invalidJsonld:invalid,findings,note:"Not a Google ranking or Core Web Vitals score"});
+});
+document.getElementById("sitemap").addEventListener("click",()=>{
+ const urls=document.getElementById("urlinput").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ if(urls.length>100){show("INPUT LIMIT","Maximum 100 URLs per local demonstration.");return}
+ const valid=[];
+ for(const u of urls){try{const x=new URL(u);if(x.protocol!=="https:"||x.username||x.password)throw Error();valid.push(u)}catch{show("INVALID URL","Use absolute HTTPS URLs without credentials. Invalid: "+u);return}}
+ const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+ show("XML SITEMAP · GENERATED",'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+valid.map(u=>"  <url><loc>"+esc(u)+"</loc></url>").join("\n")+'\n</urlset>');
+});
+</script></body></html>
