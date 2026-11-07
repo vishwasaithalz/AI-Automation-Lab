@@ -34,9 +34,13 @@
 | **ZeroAuth** | [Try real browser WebAuthn](https://karma-zeroauth.vercel.app/) | [Authenticator code, cryptographic tests](projects/ZeroAuth/) |
 | **Spectra UI** | [Explore accessible components](https://karma-spectra-ui.vercel.app/) | [Contrast algorithm, UI and tests](projects/SpectraUI/) |
 
-[All six labs](projects/) · [Automated live checks](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/karma-live-endpoints.yml) · [Repository test suite](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml)
+[All six labs](projects/) · [Chromium desktop/mobile and WebAuthn tests](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/karma-browser-e2e.yml) · [Daily live checks](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/karma-live-endpoints.yml) · [Repository test suite](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml)
 
 These are distinct applications inside one GitHub repository, **not** six separate repositories. Secure auth, high-throughput filtering, real cluster auditing and unverified numeric benchmarks remain future work.
+**Portfolio reference:** [vishwasaithal.ai.studio](https://vishwasaithal.ai.studio/) is the intended visual/product reference. Its live design must be inspected before claiming a pixel-accurate match. Real Chromium screenshots of the six apps are available in [E2E workflow artifacts](https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/karma-browser-e2e.yml).
+
+**Standalone repository route without TinyFish:** [Reviewed, dry-run-first GitHub CLI publisher](scripts/publish-standalone-repos.ps1). It requires the owner to authenticate with GitHub CLI on their own computer. Nothing automatically creates new repos or changes production Vercel Git connections.
+
 
 ## 🧠 What this is
 
