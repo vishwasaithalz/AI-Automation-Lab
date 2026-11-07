@@ -1,0 +1,31 @@
+name: KARMA prototype suites
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'projects/**'
+      - '.github/workflows/karma-project-prototypes.yml'
+  pull_request:
+    paths:
+      - 'projects/**'
+      - '.github/workflows/karma-project-prototypes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [SentinelPulse, SERPMatrix, CloudHardener, ApexVitals]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Test project
+        run: python -m unittest discover -s projects/\${{ matrix.project }} -p 'test_*.py' -v
