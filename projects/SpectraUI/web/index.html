@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spectra UI | KARMA.EXE LAB</title><meta name="description" content="Accessible component library and working WCAG color-contrast inspector">
+<style>
+:root{color-scheme:dark;--ink:#f4f8fe;--sub:#c5d5e3;--line:#435e72;--accent:#8fd5e6}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 86% 0%,#254252,transparent 53%),linear-gradient(145deg,#101927,#192838 70%,#111b28);color:var(--ink);font:16px/1.5 system-ui,-apple-system,sans-serif;min-height:100vh;margin:0}
+.skip{position:absolute;top:-100px;left:20px;background:#fff;color:#000;padding:12px;z-index:9}.skip:focus{top:8px}
+header{padding:24px max(24px,calc((100vw - 1160px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line)}
+header strong{color:var(--accent);letter-spacing:.14em;font-size:13px}a{color:#b9ecf4;text-underline-offset:4px}
+main{max-width:1160px;margin:auto;padding:52px 24px 100px}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.19em;font-size:12px;font-weight:800}
+h1{font-size:clamp(49px,7vw,86px);letter-spacing:-.075em;line-height:1.03;margin:18px 0 20px}h1 span{color:var(--accent)}.lead{max-width:790px;color:var(--sub);font-size:19px}
+.labels{display:flex;flex-wrap:wrap;gap:9px;margin:28px 0 42px}.labels span{font-size:12px;padding:7px 11px;border:1px solid var(--line);background:#172a38}
+.workspace{display:grid;grid-template-columns:1.03fr .97fr;gap:18px}.panel{background:#1b2a3b;border:1px solid var(--line);border-radius:10px;padding:27px;min-width:0}.panel h2{font-size:21px;margin:0 0 8px}.muted{color:var(--sub);font-size:14px;margin:0 0 23px}
+.field{margin:16px 0}.field label{display:block;font-size:13px;color:var(--ink);font-weight:750;margin-bottom:7px}
+.colorinput{display:flex;align-items:center;gap:10px}.colorinput input[type=text]{flex:1;width:20%;background:#0c1b29;border:1px solid #6d859c;color:var(--ink);border-radius:6px;padding:12px;font:16px ui-monospace,monospace}.colorinput input[type=color]{width:55px;height:48px;border:1px solid #718da0;border-radius:6px;background:#0e1e2b;padding:5px}
+button{padding:12px 16px;border:1px solid transparent;background:var(--accent);color:#09212a;border-radius:7px;cursor:pointer;font:750 14px system-ui}button.alt{background:#2a4054;color:var(--ink);border-color:#7893a5}button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid white;outline-offset:3px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.preview{padding:25px;border:1px solid #6a8297;border-radius:9px;background:#101b29;color:#f4f8fe;margin-top:24px;min-height:150px}.preview strong{font-size:25px}.preview p{font-size:14px}
+#ratio{font-size:clamp(29px,4vw,41px);font-weight:850;letter-spacing:-.05em;margin:7px 0}#grades{color:#d0dce8;font-size:12px;line-height:1.8}#message{color:var(--sub);font-size:12px;margin-top:10px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}.tabs button{background:transparent;color:var(--ink);border-radius:6px 6px 0 0;white-space:nowrap}.tabs button[aria-selected=true]{background:var(--accent);color:#071923}.tabcontent{padding:22px 0 10px;min-height:230px}.tabcontent[hidden]{display:none}
+.table-scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid #475d72;padding:10px 6px;text-align:left}th button{padding:2px;color:#e5f4f9;background:transparent;text-align:left}th[aria-sort=ascending] button:after{content:" ↑"}th[aria-sort=descending] button:after{content:" ↓"}td:last-child{text-align:right}th:last-child{text-align:right}
+details{padding:13px;margin:10px 0;border:1px solid #536d83;border-radius:7px}summary{cursor:pointer;font-weight:750}#toast{min-height:25px;color:#b9f3cf;font-size:14px;font-weight:700}
+dialog{max-width:min(90vw,440px);padding:30px;background:#1a2c3e;color:white;border:1px solid #afc5d8;border-radius:10px}dialog::backdrop{background:#050a10b8}dialog h3{margin-top:0}
+aside{padding:18px;margin-top:28px;background:#2a2e3e;border:1px solid #7f8197;border-radius:8px;color:#e5e3f2;font-size:13px}footer{max-width:1160px;border-top:1px solid var(--line);margin:auto;padding:24px;color:var(--sub);font-size:12px}
+@media(max-width:800px){.workspace{grid-template-columns:1fr}main{padding-top:35px}header{padding:20px 24px}.panel{padding:20px}th,td{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style></head>
+<body><a href="#main" class="skip">Skip to main content</a>
+<header><strong>KARMA / SYSTEM DESIGN</strong><a href="https://github.com/vishwasaithalz/AI-Automation-Lab/tree/main/projects/SpectraUI">SOURCE + TESTS</a></header>
+<main id="main"><div class="eyebrow">06 / Accessible interface systems</div><h1>Spectra UI.<br><span>Clarity under load.</span></h1>
+<p class="lead">A measurable contrast engine and hands-on accessible components, designed for high-density interfaces without sacrificing keyboard usability.</p>
+<div class="labels"><span>WCAG contrast math</span><span>Keyboard-operable tabs</span><span>Native dialog</span><span>Sortable data</span><span>Reduced motion</span></div>
+<div class="workspace">
+<section class="panel" aria-labelledby="lab-title"><h2 id="lab-title">Contrast laboratory</h2><p class="muted">Measure normal and large text readability against WCAG 2.x thresholds.</p>
+<div class="field"><label for="fg">Foreground color</label><div class="colorinput"><input id="fg" type="text" value="#f4f8fe" maxlength="7"><input id="fpick" type="color" aria-label="Choose foreground color" value="#f4f8fe"></div></div>
+<div class="field"><label for="bg">Background color</label><div class="colorinput"><input id="bg" type="text" value="#101b29" maxlength="7"><input id="bpick" type="color" aria-label="Choose background color" value="#101b29"></div></div>
+<div class="actions"><button id="optimize">Choose higher contrast</button><button id="reset" class="alt">Reset tokens</button></div>
+<div class="preview" id="preview"><strong>Readable intelligence.</strong><p>Dense interfaces should feel precise, never difficult to scan.</p></div>
+<p class="eyebrow" style="margin:26px 0 0">Measured contrast</p><div id="ratio" aria-live="polite">--</div><div id="grades" aria-live="polite">Checking…</div>
+<p id="message" role="status">Ready.</p></section>
+<section class="panel" aria-labelledby="component-title"><h2 id="component-title">Accessible primitives</h2><p class="muted">Use left/right arrow keys to navigate tabs, Enter to activate controls, and Escape to close the modal.</p>
+<div role="tablist" aria-label="Component examples" class="tabs"><button role="tab" id="tab-actions" aria-controls="pane-actions" aria-selected="true" tabindex="0">Actions</button><button role="tab" id="tab-data" aria-controls="pane-data" aria-selected="false" tabindex="-1">Data</button><button role="tab" id="tab-details" aria-controls="pane-details" aria-selected="false" tabindex="-1">Details</button></div>
+<div class="tabcontent" role="tabpanel" id="pane-actions" aria-labelledby="tab-actions"><p class="muted">A native modal, keyboard-operated actions and polite status announcements.</p><div class="actions"><button id="modal-open">Open modal</button><button class="alt" id="toast-open">Show status</button><button class="alt" id="toast-close">Clear status</button></div><div id="toast" aria-live="polite"></div></div>
+<div class="tabcontent" role="tabpanel" id="pane-data" aria-labelledby="tab-data" hidden><div class="table-scroll"><table><caption style="text-align:left;padding:0 0 10px;color:var(--sub)">Illustrative project queue. Click headings to sort.</caption><thead><tr><th aria-sort="none"><button data-sort="name">Project</button></th><th aria-sort="none"><button data-sort="team">Area</button></th><th aria-sort="none"><button data-sort="state">Status</button></th><th aria-sort="none"><button data-sort="priority">Priority</button></th></tr></thead><tbody id="rows"></tbody></table></div></div>
+<div class="tabcontent" role="tabpanel" id="pane-details" aria-labelledby="tab-details" hidden><details><summary>Design tokens</summary><p>Consistent spacing, typography and contrast improve the scanability of dense dashboards.</p></details><details><summary>Focus and screen readers</summary><p>Visible keyboard focus and semantic HTML are provided. Human assistive-technology testing is still required.</p></details><details><summary>Motion</summary><p>Interface behavior respects reduced-motion settings. No unverified performance numbers are claimed.</p></details></div>
+</section></div>
+<aside><strong>Verification boundary:</strong> The contrast formula uses WCAG 2.x thresholds, but this component lab has not received independent AAA certification or complete assistive-technology validation. Zero layout shift and 16ms performance guarantees are not claimed.</aside>
+</main><dialog id="dialog" aria-labelledby="dialog-title"><h3 id="dialog-title">Native modal demo</h3><p>The browser manages modal focus and Escape behavior. No account changes or network requests are made.</p><button id="modal-close">Close modal</button></dialog>
+<footer>© KARMA.EXE LAB · Accessible component engineering prototype.</footer><script type="module" src="./app.mjs"></script></body></html>
