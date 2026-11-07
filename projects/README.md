@@ -1,31 +1,44 @@
-# KARMA: four independent technical prototypes
+# KARMA.EXE LAB · Six engineering workbenches
 
-Each project has a standalone README, runnable standard-library Python demonstration, unit tests and an honest implemented-versus-planned scope.
+Six separately deployed web applications, supported by working code, automated tests, and reproducible prototypes. The original enterprise specifications are engineering goals, not measured or certified achievements.
 
-| Project | Actual prototype | Proposed next |
-|---|---|---|
-| [SentinelPulse](SentinelPulse/) | Fixed signatures, local rate-limiter, CSP nonce | Redis, Wasm, TLS deployment, WebGL |
-| [SERPMatrix](SERPMatrix/) | Offline SEO analysis and XML sitemap | Knowledge Graph, CWV, large-scale crawling |
-| [CloudHardener](CloudHardener/) | Read-only Kubernetes JSON security checks | CIS policy mapping, cluster scanner, signed logs |
-| [ApexVitals](ApexVitals/) | Glyph inventory, gzip/Brotli, srcset plan | True font and AVIF processing |
+## Live apps
 
-These are folders inside the AI-Automation-Lab repository, not four new standalone repositories. No production benchmarks or security guarantees have been established.
+| Workbench | Live app | Working functions | Planned, unverified |
+|---|---|---|---|
+| **SentinelPulse** | [Open security lab](https://karma-sentinelpulse.vercel.app/) | Fixed L7 signature checks, local sliding-window rate limit simulator, CSP nonce generator | Redis-cluster atomic rate limiting, Wasm filters, TLS edge policies, 60fps WebGL visualization, latency benchmarks |
+| **SERPMatrix** | [Open SEO lab](https://karma-serpmatrix.vercel.app/) | Local HTML meta/schema checks, XML sitemap generator | Entity graphs, large-scale crawler, SSR cache warming, measured CWV |
+| **CloudHardener** | [Open infrastructure lab](https://karma-cloudhardener.vercel.app/) | Read-only Kubernetes JSON security policy checks | CIS-complete cluster audit, drift detection, signed audit trail |
+| **ApexVitals** | [Open performance lab](https://karma-apexvitals.vercel.app/) | Route glyph analysis, image dimension checks, responsive candidate planning, real local gzip generation | AVIF encoding, genuine font subsets, global LCP improvements |
+| **ZeroAuth** | [Open passkey lab](https://karma-zeroauth.vercel.app/) | Real browser WebAuthn register/get ceremonies and client-side ES256 signature verification | Secure server-side account binding, sessions, attestation trust, recovery |
+| **Spectra UI** | [Open UI lab](https://karma-spectra-ui.vercel.app/) | WCAG 2.x contrast calculator, keyboard tabs, modal, sortable table, responsive components | WCAG AAA certification, complete assistive-technology audit, npm package |
 
-The brief also mentioned ZeroAuth and Spectra UI; they are not represented as implemented here.
+## Source and tests
 
-Run a project's suite:
+Each project has an independent source directory with its own README:
+- [SentinelPulse](SentinelPulse/)
+- [SERPMatrix](SERPMatrix/)
+- [CloudHardener](CloudHardener/)
+- [ApexVitals](ApexVitals/)
+- [ZeroAuth](ZeroAuth/)
+- [Spectra UI](SpectraUI/)
+
+Test the Python prototypes with:
 
     python -m unittest discover -s projects/SentinelPulse -v
+    python -m unittest discover -s projects/SERPMatrix -v
+    python -m unittest discover -s projects/CloudHardener -v
+    python -m unittest discover -s projects/ApexVitals -v
 
-Substitute another project name as needed. The GitHub Actions matrix runs all four suites.
+Test the two JavaScript projects with:
 
-## Launch the interactive apps
+    node --test tests/zeroauth.test.mjs tests/spectra.test.mjs
+    node --test tests/karma-remaining-web-smoke.test.mjs
 
-| Project | Production Vercel demo | Deployment source |
-|---|---|---|
-| SentinelPulse | [Launch app](https://karma-sentinelpulse.vercel.app/) | [Web source](SentinelPulse/web/index.html) |
-| SERPMatrix | [Launch app](https://karma-serpmatrix.vercel.app/) | [Web source](SERPMatrix/web/index.html) |
-| CloudHardener | [Launch app](https://karma-cloudhardener.vercel.app/) | [Web source](CloudHardener/web/index.html) |
-| ApexVitals | [Launch app](https://karma-apexvitals.vercel.app/) | [Web source](ApexVitals/web/index.html) |
+The repository-level npm test workflow covers all Node tests. The GitHub Actions live-endpoints workflow checks HTTP 200, page identity and required assets of all six Vercel production deployments.
 
-Four distinct Vercel production projects share this GitHub repository and use separate project root directories. Vercel reports READY with aliases assigned; an independent client-side HTTP/interaction check was unavailable in this execution environment.
+## Project boundaries
+
+These six projects currently share the public AI-Automation-Lab repository. They use **six separate Git-connected Vercel projects** and root directories. They are **not six standalone GitHub repositories**, and are not production security services.
+
+Do not use these educational demos as actual intrusion prevention, authentication enforcement, cloud vulnerability attestation, or verified performance guarantees. Benchmark and certify independently before marketing quantitative claims.
