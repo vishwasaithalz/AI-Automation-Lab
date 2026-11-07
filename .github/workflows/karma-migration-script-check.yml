@@ -1,0 +1,32 @@
+name: Validate KARMA repository publisher syntax
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/publish-standalone-repos.ps1'
+      - '.github/workflows/karma-migration-script-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Parse only; never execute repository creation
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile('scripts/publish-standalone-repos.ps1', [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count) {
+            $errors | Format-List | Out-String | Write-Error
+            exit 1
+          }
+          Write-Host 'Script syntax valid. No repositories created.'
