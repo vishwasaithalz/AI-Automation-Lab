@@ -1,0 +1,16 @@
+{
+  "id": "security-logon-events",
+  "title": "Learning from Windows authentication event logs",
+  "summary": "Windows failed logon events are clues, not proof of compromise. Validate timestamps, accounts, hosts and related events before concluding.",
+  "source_url": "https://github.com/vishwasaithalz/LogSentry",
+  "facts": [
+    "LogSentry documents analysis of imported Windows security events.",
+    "The public README describes synthetic fixtures and investigation limits."
+  ],
+  "lesson": "Start with a local reproducible event example before developing automated conclusions.",
+  "devto_tags": [
+    "security",
+    "python",
+    "opensource"
+  ]
+}
