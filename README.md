@@ -9,8 +9,7 @@
 
 <p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/tiles/automation-lab.svg" width="68%" alt="Open 🤖 AI Automation Lab project" /></a></p>
 <p align="center"><strong>🤖 AI Automation Lab</strong> · Provider-neutral workflow experiments</p>
-<details>
-<summary>Build and technology badges</summary>
+
 
 <p align="center">
 <a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/nav/code.svg" width="46%" alt="Explore automation source" /></a>
@@ -22,6 +21,9 @@
 </details>
 
 </details>
+
+<details>
+<summary>Build and technology badges</summary>
 
 <p align="center">
   <a href="https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml"><img src="https://github.com/vishwasaithalz/AI-Automation-Lab/actions/workflows/tests.yml/badge.svg" alt="AI Automation Lab tests" /></a>
