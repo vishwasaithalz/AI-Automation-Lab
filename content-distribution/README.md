@@ -6,13 +6,13 @@ Dependency-free Python 3.10+ starter that converts a fact-checked technical upda
 
 ## Run
 
-\`\`\`bash
+```bash
 cd content-distribution
 python build.py example_story.json --output out
 python -m unittest discover -s . -p 'test_*.py' -v
-\`\`\`
+```
 
-Outputs in \`out/security-logon-events/\` have a \`manifest.json\` with \`NOT_PUBLISHED\` status. Quora output remains gated as \`needs_question\` until a real relevant question and verified URL are supplied. Do not invent Quora question identifiers.
+Outputs in `out/security-logon-events/` have a `manifest.json` with `NOT_PUBLISHED` status. Quora output remains gated as `needs_question` until a real relevant question and verified URL are supplied. Do not invent Quora question identifiers.
 
 | Platform | Original format | Publisher integration |
 | --- | --- | --- |
@@ -20,7 +20,7 @@ Outputs in \`out/security-logon-events/\` have a \`manifest.json\` with \`NOT_PU
 | Quora | Direct answer to verified question | Research/draft only, no approved official posting integration |
 | Indie Hackers | Specific builder lesson and genuine question | Research/draft only, no verified writer integration |
 | Medium | Editorial narrative | Review/import-ready; new API tokens not issued |
-| DEV.to | Technical Markdown with \`published: false\`, optional canonical URL | Forem API exists; no authenticated publisher currently connected |
+| DEV.to | Technical Markdown with `published: false`, optional canonical URL | Forem API exists; no authenticated publisher currently connected |
 
 ## Editorial controls
 
