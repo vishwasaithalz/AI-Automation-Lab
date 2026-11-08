@@ -1,20 +1,17 @@
 <!-- VISHWAS.EXE UNIFIED THEME START -->
-<p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/brand/vishwas-exe-automation-lab.svg" width="100%" alt="VISHWAS.EXE uniform retro GitHub interface for AI Automation Lab, created by Vishwas Aithal" /></a></p>
-<p align="center"><strong>VISHWAS.EXE / AI Automation Lab</strong><br/>Reproducible automation workflow experiments<br/><sub>Designed and built by <strong>Vishwas Aithal</strong> · Same computer universe, its own personality</sub></p>
-<p align="center">
-  <a href="https://vishwasaithalz.github.io/vishwasaithalz/"><strong>💾 BOOT MANAGER</strong></a> &nbsp;·&nbsp;
-  <a href="https://vishwasaithalz.github.io/vishwasaithalz/overload/"><strong>🖥️ OVERLOAD OS</strong></a> &nbsp;·&nbsp;
-  <a href="https://vishwasaithalz.github.io/vishwasaithalz/arcade/"><strong>🎮 ARCADE</strong></a> &nbsp;·&nbsp;
-  <a href="https://github.com/vishwasaithalz?tab=repositories"><strong>📁 ALL PROJECTS</strong></a> &nbsp;·&nbsp;
-  <a href="https://vishwasaithal.ai.studio/"><strong>🌐 PORTFOLIO</strong></a>
-</p>
+<p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/brand/vishwas-exe-automation-lab.svg" width="100%" alt="AI Automation Lab. Original editorial illustration by Vishwas Aithal." /></a></p>
+
+<p align="center"><a href="https://vishwasaithalz.github.io/vishwasaithalz/">Personal index</a> &nbsp;·&nbsp; <a href="https://github.com/vishwasaithalz?tab=repositories">All projects</a> &nbsp;·&nbsp; <a href="https://vishwasaithal.ai.studio/">Portfolio</a></p>
 <!-- VISHWAS.EXE UNIFIED THEME END -->
 
 <details>
-<summary><strong>🎞 Open legacy project visuals and original navigation</strong></summary>
+<summary>Earlier artwork and navigation</summary>
 
 <p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/tiles/automation-lab.svg" width="68%" alt="Open 🤖 AI Automation Lab project" /></a></p>
 <p align="center"><strong>🤖 AI Automation Lab</strong> · Provider-neutral workflow experiments</p>
+<details>
+<summary>Build and technology badges</summary>
+
 <p align="center">
 <a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/nav/code.svg" width="46%" alt="Explore automation source" /></a>
 <a href="https://vishwasaithalz.github.io/vishwasaithalz/arcade/#terminal"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/nav/terminal.svg" width="46%" alt="Explore the browser terminal" /></a>
@@ -32,6 +29,7 @@
   <img src="https://img.shields.io/badge/Dependencies-None-1f2937?style=flat-square" alt="No runtime dependencies" />
   <img src="https://img.shields.io/badge/Demo-Offline%20mock-7c3aed?style=flat-square" alt="Offline mock demo" />
 </p>
+</details>
 
 <p align="center"><strong>Small, testable automation workflows with explicit data and provider boundaries.</strong></p>
 
