@@ -1,0 +1,39 @@
+name: Omnichannel drafts | offline tests
+
+on:
+  pull_request:
+    paths:
+      - "content-distribution/**"
+      - ".github/workflows/omnichannel-drafts.yml"
+  push:
+    branches: [main]
+    paths:
+      - "content-distribution/**"
+      - ".github/workflows/omnichannel-drafts.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  draft-tests:
+    name: Validate unpublished platform drafts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code without retained credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Python 3.11
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Compile and run unit tests
+        run: |
+          python -m compileall -q content-distribution
+          python -m unittest discover -s content-distribution -p 'test_*.py' -v
+      - name: Render local drafts without publishing
+        run: |
+          python content-distribution/build.py content-distribution/example_story.json --output "${RUNNER_TEMP}/omnichannel"
+          python -c "import json, os, pathlib; p=pathlib.Path(os.environ['RUNNER_TEMP'])/'omnichannel'/'security-logon-events'/'manifest.json'; v=json.loads(p.read_text()); assert v['publication']=='NOT_PUBLISHED'; assert v['channels']['quora']['status']=='needs_question'; assert v['channels']['devto']['status']=='draft_ready'"
