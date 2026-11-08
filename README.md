@@ -1,4 +1,18 @@
-<!-- KARMA PROJECT IDENTITY / compact visual navigation -->
+<!-- VISHWAS.EXE UNIFIED THEME START -->
+<p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/brand/vishwas-exe-automation-lab.svg" width="100%" alt="VISHWAS.EXE uniform retro GitHub interface for AI Automation Lab, created by Vishwas Aithal" /></a></p>
+<p align="center"><strong>VISHWAS.EXE / AI Automation Lab</strong><br/>Reproducible automation workflow experiments<br/><sub>Designed and built by <strong>Vishwas Aithal</strong> · Same computer universe, its own personality</sub></p>
+<p align="center">
+  <a href="https://vishwasaithalz.github.io/vishwasaithalz/"><strong>💾 BOOT MANAGER</strong></a> &nbsp;·&nbsp;
+  <a href="https://vishwasaithalz.github.io/vishwasaithalz/overload/"><strong>🖥️ OVERLOAD OS</strong></a> &nbsp;·&nbsp;
+  <a href="https://vishwasaithalz.github.io/vishwasaithalz/arcade/"><strong>🎮 ARCADE</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/vishwasaithalz?tab=repositories"><strong>📁 ALL PROJECTS</strong></a> &nbsp;·&nbsp;
+  <a href="https://vishwasaithal.ai.studio/"><strong>🌐 PORTFOLIO</strong></a>
+</p>
+<!-- VISHWAS.EXE UNIFIED THEME END -->
+
+<details>
+<summary><strong>🎞 Open legacy project visuals and original navigation</strong></summary>
+
 <p align="center"><a href="https://github.com/vishwasaithalz/AI-Automation-Lab"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/tiles/automation-lab.svg" width="68%" alt="Open 🤖 AI Automation Lab project" /></a></p>
 <p align="center"><strong>🤖 AI Automation Lab</strong> · Provider-neutral workflow experiments</p>
 <p align="center">
@@ -8,6 +22,8 @@
 
 <details><summary>🎨 Open original full-size project artwork</summary>
 <p align="center"><img src="assets/automation-hero.svg" alt="AI Automation Lab custom project artwork" width="90%" /></p>
+</details>
+
 </details>
 
 <p align="center">
