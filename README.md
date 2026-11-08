@@ -21,7 +21,7 @@
 
 <p align="center"><a href="#-architecture">Architecture</a> · <a href="#-quick-start">Quick start</a> · <a href="#-privacy--secrets">Privacy</a> · <a href="#-roadmap">Roadmap</a></p>
 
-## 🚀 KARMA engineering workbenches
+## 🚀 Vishwas Aithal engineering workbenches
 
 **Six live interactive prototypes** with independent Vercel projects, GitHub source and automated checks. Each app is a small, measurable demonstration and **does not claim production security certification or enterprise-scale performance**.
 
@@ -137,7 +137,7 @@ Keep provider-specific code isolated and include tests for success, failure, tim
 
 **WORKFLOWS / SAFETY / AUTOMATION**
 
-<img src="https://img.shields.io/badge/KARMA-SYSTEMS-0f172a?style=for-the-badge" alt="KARMA Systems" /> <img src="https://img.shields.io/badge/BUILD-VERIFY-0f766e?style=for-the-badge" alt="Build and verify" />
+<img src="https://img.shields.io/badge/Vishwas_Aithal-SYSTEMS-0f172a?style=for-the-badge" alt="Vishwas Aithal Systems" /> <img src="https://img.shields.io/badge/BUILD-VERIFY-0f766e?style=for-the-badge" alt="Build and verify" />
 
 <sub>Designed for clarity. Built for evidence. No invented status metrics.</sub>
 
@@ -145,8 +145,8 @@ Keep provider-specific code isolated and include tests for success, failure, tim
 <!-- KARMA VISUAL IDENTITY: END -->
 
 
-<p align="center"><img src="assets/karma-signal.svg" alt="Animated KARMA automation signal" width="100%" /></p>
-<details><summary><strong>Animated project gallery</strong></summary><p><a href="https://karma-ops-monitor.vercel.app">Open the KARMA interactive gallery and original audio controls</a>.</p></details>
+<p align="center"><img src="assets/karma-signal.svg" alt="Animated Vishwas Aithal automation signal" width="100%" /></p>
+<details><summary><strong>Animated project gallery</strong></summary><p><a href="https://karma-ops-monitor.vercel.app">Open the Vishwas Aithal interactive gallery and original audio controls</a>.</p></details>
 
 
 <!-- KARMA AVATAR GALLERY -->
