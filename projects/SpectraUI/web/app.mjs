@@ -1,4 +1,4 @@
-import {rgb,grade,bestText} from "./contrast.mjs";
+import {rgb,grade,bestText,paletteAudit} from "./contrast.mjs";
 const $=id=>document.getElementById(id);
 const fg=$("fg"),bg=$("bg"),fPick=$("fpick"),bPick=$("bpick");
 const normalize=s=>"#"+rgb(s).map(n=>n.toString(16).padStart(2,"0")).join("");
@@ -72,3 +72,25 @@ document.querySelectorAll("[data-sort]").forEach(btn=>btn.addEventListener("clic
  $("message").textContent="Table sorted by "+key+", "+(asc?"ascending":"descending")+".";
 }));
 update();renderRows();switchTo(tabs[0],false);
+
+$("palette-run").addEventListener("click",()=>{
+ try{
+  const colors=$("palette-input").value.split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean);
+  const report=paletteAudit(colors);
+  const output=[
+   "PALETTE AUDIT / LOCAL",
+   "Suggested readable foreground for each background:",
+   ...report.recommendations.map(x=>x.background+" → "+x.foreground+" | "+x.ratio+":1 | AA normal "+(x.AA_normal?"PASS":"FAIL")),
+   "",
+   "Pairwise contrast:",
+   ...report.pairs.map(x=>x.foreground+" on "+x.background+" | "+x.ratio+":1 | AA normal "+(x.AA_normal?"PASS":"FAIL")),
+   "",
+   "Contrast checks only. A passing ratio does not certify accessibility."
+  ];
+  $("palette-result").textContent=output.join("\n");
+  $("message").textContent="Audited "+colors.length+" local palette tokens. No network requests.";
+ }catch(error){
+  $("palette-result").textContent="Input error: "+error.message;
+  $("message").textContent="Fix the palette input and retry.";
+ }
+});
