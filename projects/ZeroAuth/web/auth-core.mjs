@@ -36,7 +36,8 @@ export function derToRaw(der){
 }
 export function assessCounter(previous,current){
  if(!Number.isSafeInteger(previous)||!Number.isSafeInteger(current)||previous<0||current<0)throw Error("Invalid authenticator counter");
- if(previous===0||current===0)return {status:"not_supported",reason:"Authenticator counters may be unsupported"};
+ if(current===0)return {status:"not_supported",reason:"Authenticator counters may be unsupported"};
+ if(previous===0)return {status:"first_observation",difference:current};
  if(current<=previous)throw Error("Potential replay or authenticator clone: counter did not advance");
  return {status:"advanced",difference:current-previous};
 }
