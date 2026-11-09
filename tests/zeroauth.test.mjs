@@ -34,6 +34,7 @@ test("genuine ES256 DER signature and challenge-response",async()=>{
 test("opt-in authenticator counter replay review",()=>{
  assert.deepEqual(assessCounter(3,5),{status:"advanced",difference:2});
  assert.equal(assessCounter(0,0).status,"not_supported");
+ assert.equal(assessCounter(0,5).status,"first_observation");
  assert.throws(()=>assessCounter(5,5),/replay/);
  assert.throws(()=>assessCounter(5,3),/replay/);
  assert.throws(()=>assessCounter(-1,4),/Invalid/);
