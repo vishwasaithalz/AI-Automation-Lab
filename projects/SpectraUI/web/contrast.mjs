@@ -18,3 +18,19 @@ export function grade(fg,bg){
  return {ratio:Number(ratio.toFixed(2)),AA_normal:ratio>=4.5,AA_large:ratio>=3,AAA_normal:ratio>=7,AAA_large:ratio>=4.5};
 }
 export function bestText(bg){return contrast("#000000",bg)>=contrast("#ffffff",bg)?"#000000":"#ffffff";}
+
+export function paletteAudit(colors){
+ if(!Array.isArray(colors)||colors.length<2||colors.length>12)throw Error("Provide 2 to 12 hex colors");
+ const normalized=colors.map(c=>{rgb(c);return c.toLowerCase();});
+ const recommendations=normalized.map(background=>{
+  const foreground=bestText(background);
+  return {background,foreground,...grade(foreground,background)};
+ });
+ const pairs=[];
+ for(let i=0;i<normalized.length;i++){
+  for(let j=i+1;j<normalized.length;j++){
+   pairs.push({foreground:normalized[i],background:normalized[j],...grade(normalized[i],normalized[j])});
+  }
+ }
+ return {recommendations,pairs,source:"WCAG_2.x_static_contrast"};
+}
