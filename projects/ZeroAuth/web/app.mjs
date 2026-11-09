@@ -45,10 +45,9 @@ $("login").onclick=async()=>{
    timeout:60000,userVerification:"preferred"
   }});
   if(encode64(assertion.rawId)!==r.id)throw Error("Unexpected credential ID");
-  const data=await verifyAssertion(assertion,r.spki,encoded,r.origin,r.rpId);
-  if(r.counter>0&&data.counter>0&&data.counter<=r.counter)throw Error("Signature counter did not advance");
+  const data=await verifyAssertion(assertion,r.spki,encoded,r.origin,r.rpId,r.counter);
   r.counter=data.counter;sessionStorage.setItem(key,JSON.stringify(r));
-  show("ES256 SIGNATURE VERIFIED · LOCAL",{...data,note:"Real signature verified in browser; this is not a secure authorization boundary"});
+  show("ES256 SIGNATURE VERIFIED · LOCAL",{...data,counterPolicy:"Opt-in source counter assessment is now part of this local verification flow.",note:"Real signature verified in browser; this is not a secure authorization boundary"});
  }catch(e){show("AUTHENTICATION NOT COMPLETED",friendly(e))}
  finally{refresh()}
 };
