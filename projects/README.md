@@ -1,4 +1,4 @@
-# KARMA.EXE LAB · Six engineering workbenches
+# VISHWAS AITHAL · Six engineering workbenches
 
 Six separately deployed web applications, supported by working code, automated tests, and reproducible prototypes. The original enterprise specifications are engineering goals, not measured or certified achievements.
 
