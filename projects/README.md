@@ -4,18 +4,22 @@ Six separately deployed web applications, supported by working code, automated t
 
 ## New tested source capabilities
 
-The six labs now include **opt-in source-level enhancements**. Existing demos, their Git-connected Vercel roots and default behavior are unchanged. These functions require local execution or an additional UI release before they appear on the live sites.
+The six labs now include **tested source-level enhancements with corresponding browser controls or readouts**. The existing demos, their Git-connected Vercel roots and default workflows remain in place. The browser controls are local-only learning tools, not production infrastructure. Source functions and browser implementations are distinct and may differ in compression details or rule names. Deployment status must be verified separately before calling the website live.
 
 | Workbench | New original function |
 | :-- | :-- |
-| SentinelPulse | `inspect_batch` for bounded offline event summaries |
-| SERPMatrix | `audit_extended` for page structure and image alt review |
-| CloudHardener | `inspect_advanced` for additional manifest risk signals |
-| ApexVitals | `transfer_budget` for deterministic local gzip estimates |
-| ZeroAuth | `assessCounter` and an optional signature-review counter check |
-| Spectra UI | `paletteAudit` for bounded token palette contrast comparisons |
+| SentinelPulse | `inspect_batch` and browser Batch Inspector for up to 100 local requests |
+| SERPMatrix | `audit_extended` and inline H1, missing-alt and missing-link checks |
+| CloudHardener | `inspect_advanced` and opt-in additional manifest checks |
+| ApexVitals | `transfer_budget` and actual browser gzip comparison without download |
+| ZeroAuth | `assessCounter` now integrated into browser WebAuthn signature readout |
+| Spectra UI | `paletteAudit` and an interactive palette contrast report |
 
 [Open the GitHub Reference Atlas](REFERENCE_ATLAS.md) for 30 selected public references, their scope and future engineering gates.
+
+## Preview verification
+
+The new features are exercised using a local test-only HTTP server and Playwright Chromium in `tests/e2e/lab-preview-upgrades.spec.mjs`. They should be labeled live only after GitHub CI passes and the six Vercel production deployments are confirmed on the merged release commit. No visitor data is transmitted by these controls.
 
 ## Live apps
 
