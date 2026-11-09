@@ -49,6 +49,31 @@ def sitemap(urls):
   SubElement(SubElement(root,"url"),"loc").text=url
  return '<?xml version="1.0" encoding="UTF-8"?>\n'+tostring(root,encoding="unicode")
 
+
+class ExtendedReader(HTMLParser):
+ """Collect additional read-only accessibility and document structure signals."""
+ def __init__(self):
+  super().__init__(convert_charrefs=True)
+  self.h1_count=0;self.images_without_alt=0;self.links_missing_href=0
+ def handle_starttag(self,tag,attrs):
+  attributes=dict(attrs)
+  if tag=="h1":self.h1_count+=1
+  elif tag=="img" and ("alt" not in attributes or attributes["alt"] is None):
+   self.images_without_alt+=1
+  elif tag=="a" and not attributes.get("href"):
+   self.links_missing_href+=1
+
+def audit_extended(html):
+ """Add explicit, limited structural checks without changing the baseline audit."""
+ base=audit(html);parser=ExtendedReader();parser.feed(html)
+ warnings=[]
+ if parser.h1_count==0:warnings.append("missing_h1")
+ if parser.h1_count>1:warnings.append("multiple_h1")
+ if parser.images_without_alt:warnings.append("images_without_alt")
+ if parser.links_missing_href:warnings.append("links_without_href")
+ return {**base,"h1_count":parser.h1_count,"images_without_alt":parser.images_without_alt,
+         "links_without_href":parser.links_missing_href,"warnings":warnings}
+
 if __name__=="__main__":
  p=argparse.ArgumentParser();p.add_argument("html_file");a=p.parse_args()
  with open(a.html_file,encoding="utf-8") as f:print(json.dumps(audit(f.read()),indent=2))
