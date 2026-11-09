@@ -39,7 +39,7 @@ code{color:#bce9e9;overflow-wrap:anywhere}.notice{padding:16px 18px;border:1px s
       }
     ]
   }
-}</textarea></div><div class="buttons"><button id="analyze">Analyze policy</button><button class="alt" id="insecure">Load risky sample</button></div></section>
+}</textarea></div><div class="field"><label for="advanced-policy" style="display:flex;align-items:center;gap:12px"><input id="advanced-policy" type="checkbox" style="width:auto;min-height:auto" /> Enable additional host namespace, capability and resource limit checks</label></div><div class="buttons"><button id="analyze">Analyze policy</button><button class="alt" id="insecure">Load risky sample</button></div></section>
 <section class="panel"><h2>Execution readout</h2><p class="sub">Demonstration results, not live infrastructure measurements.</p><div class="stat" id="status">READY · LOCAL MODE</div><div id="result" class="result" aria-live="polite">Run an example to view the local result.</div></section></div><aside class="notice"><strong>Engineering boundary:</strong> Selected example checks, not a CIS-compliant assessment or a vulnerability scanner. No cluster access, network calls, remediation changes or secret value output. Do not paste real secrets or kubeconfigs.</aside></main>
 <footer>© KARMA.EXE LAB · Working prototype, not production infrastructure · No personal data or network probes are transmitted.</footer>
 <script>
@@ -52,7 +52,7 @@ function specOf(r){
  if(r.kind==="CronJob")return s.jobTemplate?.spec?.template?.spec||{};
  return s.template?.spec||{};
 }
-function check(r){
+function check(r,advanced=false){
  if(!r||typeof r!=="object"||Array.isArray(r))throw Error("Every resource must be a JSON object");
  const kind=r.kind||"Unknown",findings=[],name=String(r.metadata?.name||"unnamed");
  if(["Pod","Deployment","DaemonSet","StatefulSet","Job","CronJob"].includes(kind)){
@@ -71,6 +71,21 @@ function check(r){
   if((r.spec?.rules||[]).some(x=>!x.host))findings.push("Ingress host not specified");
  }
  if(kind==="Secret"&&r.stringData&&Object.keys(r.stringData).length)findings.push("Plaintext stringData keys present (values hidden)");
+ if(advanced&&["Pod","Deployment","DaemonSet","StatefulSet","Job","CronJob"].includes(kind)){
+  const pod=specOf(r);
+  for(const field of ["hostNetwork","hostPID","hostIPC"]){
+   if(pod[field]===true)findings.push("pod:"+field+"_enabled");
+  }
+  for(const c of [...(pod.containers||[]),...(pod.initContainers||[])]){
+   const label=String(c.name||"unnamed"),added=c.securityContext?.capabilities?.add||[];
+   if(Array.isArray(added)&&(added.includes("SYS_ADMIN")||added.includes("ALL")))
+    findings.push(label+": high risk capability requested");
+   const limits=c.resources?.limits||{};
+   if(!Object.prototype.hasOwnProperty.call(limits,"cpu")||
+      !Object.prototype.hasOwnProperty.call(limits,"memory"))
+    findings.push(label+": CPU or memory resource limit missing");
+  }
+ }
  return {kind,name,findings};
 }
 document.getElementById("analyze").addEventListener("click",()=>{
@@ -80,8 +95,9 @@ document.getElementById("analyze").addEventListener("click",()=>{
   const data=JSON.parse(raw);
   const items=Array.isArray(data)?data:data.kind==="List"?data.items:[data];
   if(!Array.isArray(items)||items.length>100)throw Error("Maximum 100 resources");
-  const report=items.map(check),count=report.reduce((n,r)=>n+r.findings.length,0);
-  show(count?"FINDINGS · REVIEW":"NO DEMO FINDINGS",{resources:report.length,findings:count,report,note:"Partial demo checks; no CIS certification"});
+  const advanced=document.getElementById("advanced-policy").checked;
+  const report=items.map(item=>check(item,advanced)),count=report.reduce((n,r)=>n+r.findings.length,0);
+  show(count?"FINDINGS · REVIEW":"NO DEMO FINDINGS",{resources:report.length,advancedPolicyChecks:advanced,findings:count,report,note:"Partial demo checks; no CIS certification"});
  }catch(e){show("INPUT ERROR",e.message)}
 });
 document.getElementById("insecure").addEventListener("click",()=>{
