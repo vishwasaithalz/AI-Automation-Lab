@@ -38,6 +38,19 @@ def example_csp():
  nonce=secrets.token_urlsafe(18)
  return {"Content-Security-Policy":"default-src 'self'; object-src 'none'; script-src 'self' 'nonce-"+nonce+"'"}, nonce
 
+
+def inspect_batch(records, limiter=None, now=None):
+ """Process up to 100 synthetic or authorized records without echoing request content."""
+ if not isinstance(records,list) or len(records)>100:
+  raise ValueError("Expected at most 100 records")
+ results=[]; summary={}
+ for item in records:
+  if not isinstance(item,dict):raise TypeError("Each record must be an object")
+  result=inspect(item.get("path",""),item.get("body",""),limiter,item.get("client","demo"),now)
+  results.append(result)
+  reason=result["reason"];summary[reason]=summary.get(reason,0)+1
+ return {"total":len(results),"allowed":sum(x["allowed"] for x in results),"by_reason":summary,"results":results}
+
 if __name__=="__main__":
  ap=argparse.ArgumentParser()
  ap.add_argument("--path",default="/login")
