@@ -15,4 +15,16 @@ class Tests(unittest.TestCase):
   self.assertIn("plaintext_stringData_present",result["findings"])
  def test_list(self):
   self.assertEqual(len(audit({"kind":"List","items":[{"kind":"Ingress"},{"kind":"ConfigMap"}]})),2)
+
+ def test_opt_in_advanced_policy(self):
+  from main import inspect_advanced
+  pod={"kind":"Pod","spec":{"hostNetwork":True,"containers":[{"name":"api","securityContext":{
+    "runAsNonRoot":True,"allowPrivilegeEscalation":False,"readOnlyRootFilesystem":True,
+    "capabilities":{"add":["SYS_ADMIN"]}}}]}}
+  result=inspect_advanced(pod)
+  self.assertIn("pod:hostNetwork_enabled",result["findings"])
+  self.assertIn("api:high_risk_capability",result["findings"])
+  self.assertIn("api:missing_resource_limits",result["findings"])
+  self.assertEqual(inspect(pod)["findings"],[])
+
 if __name__=="__main__":unittest.main()
