@@ -1,6 +1,21 @@
-# KARMA.EXE LAB · Six engineering workbenches
+# VISHWAS AITHAL · Six engineering workbenches
 
 Six separately deployed web applications, supported by working code, automated tests, and reproducible prototypes. The original enterprise specifications are engineering goals, not measured or certified achievements.
+
+## New tested source capabilities
+
+The six labs now include **opt-in source-level enhancements**. Existing demos, their Git-connected Vercel roots and default behavior are unchanged. These functions require local execution or an additional UI release before they appear on the live sites.
+
+| Workbench | New original function |
+| :-- | :-- |
+| SentinelPulse | `inspect_batch` for bounded offline event summaries |
+| SERPMatrix | `audit_extended` for page structure and image alt review |
+| CloudHardener | `inspect_advanced` for additional manifest risk signals |
+| ApexVitals | `transfer_budget` for deterministic local gzip estimates |
+| ZeroAuth | `assessCounter` and an optional signature-review counter check |
+| Spectra UI | `paletteAudit` for bounded token palette contrast comparisons |
+
+[Open the GitHub Reference Atlas](REFERENCE_ATLAS.md) for 30 selected public references, their scope and future engineering gates.
 
 ## Live apps
 

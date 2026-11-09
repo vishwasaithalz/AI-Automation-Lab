@@ -36,6 +36,23 @@ def audit(data):
  else:raise TypeError("Expected JSON resource or list")
  return [inspect(item) for item in items]
 
+
+def inspect_advanced(resource):
+ """Opt-in defensive policy review with no cluster access or manifest mutation."""
+ base=inspect(resource);additional=[]
+ kind=resource.get("kind")
+ if kind in WORKLOADS:
+  pod=pod_spec(resource)
+  for flag in ("hostNetwork","hostPID","hostIPC"):
+   if pod.get(flag) is True:additional.append("pod:"+flag+"_enabled")
+  for c in list(pod.get("containers") or [])+list(pod.get("initContainers") or []):
+   cname=c.get("name","unnamed")
+   adds=((c.get("securityContext") or {}).get("capabilities") or {}).get("add") or []
+   if "SYS_ADMIN" in adds or "ALL" in adds:additional.append(cname+":high_risk_capability")
+   limits=(c.get("resources") or {}).get("limits") or {}
+   if "cpu" not in limits or "memory" not in limits:additional.append(cname+":missing_resource_limits")
+ return {**base,"findings":base["findings"]+additional,"advanced":True}
+
 if __name__=="__main__":
  p=argparse.ArgumentParser();p.add_argument("json_manifest");a=p.parse_args()
  with open(a.json_manifest,encoding="utf-8") as f:print(json.dumps(audit(json.load(f)),indent=2))

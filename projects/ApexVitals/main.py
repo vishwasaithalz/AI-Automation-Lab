@@ -42,6 +42,17 @@ def compress(path):
   files.append(str(bro))
  return files
 
+
+def transfer_budget(text):
+ """Deterministic local UTF-8 gzip comparison, not network performance measurement."""
+ if not isinstance(text,str):raise TypeError("Expected text")
+ raw=text.encode("utf-8")
+ gz=gzip.compress(raw,compresslevel=9,mtime=0)
+ return {"raw_bytes":len(raw),"gzip_bytes":len(gz),
+         "bytes_saved":len(raw)-len(gz),
+         "savings_percent":round((1-len(gz)/len(raw))*100,1) if raw else 0.0,
+         "source":"local_gzip_estimate"}
+
 if __name__=="__main__":
  p=argparse.ArgumentParser();p.add_argument("html_file");p.add_argument("--compress",action="store_true");a=p.parse_args()
  path=Path(a.html_file)

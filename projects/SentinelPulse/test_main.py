@@ -15,4 +15,15 @@ class Tests(unittest.TestCase):
   h,n=example_csp()
   self.assertIn("nonce-"+n,h["Content-Security-Policy"])
   self.assertNotEqual(n,example_csp()[1])
+
+ def test_bounded_batch_and_safe_summary(self):
+  from main import inspect_batch
+  batch=inspect_batch([{"path":"/healthy"},{"path":"/../private","body":"sensitive user secret"}])
+  self.assertEqual(batch["total"],2)
+  self.assertEqual(batch["allowed"],1)
+  self.assertEqual(batch["by_reason"]["traversal"],1)
+  self.assertNotIn("sensitive user secret",str(batch))
+  with self.assertRaises(ValueError):inspect_batch([{}]*101)
+  with self.assertRaises(TypeError):inspect_batch(["bad"])
+
 if __name__=="__main__":unittest.main()

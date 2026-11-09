@@ -17,4 +17,14 @@ class Tests(unittest.TestCase):
    created=compress(f)
    self.assertIn(str(f)+".gz",created)
    with gzip.open(str(f)+".gz","rb") as handle:self.assertEqual(handle.read(),b"abc")
+
+ def test_transfer_budget_deterministic(self):
+  from main import transfer_budget
+  data="repeat and compress "*200
+  first=transfer_budget(data);second=transfer_budget(data)
+  self.assertEqual(first,second)
+  self.assertGreater(first["bytes_saved"],0)
+  self.assertEqual(first["source"],"local_gzip_estimate")
+  with self.assertRaises(TypeError):transfer_budget(b"binary")
+
 if __name__=="__main__":unittest.main()

@@ -34,7 +34,14 @@ export function derToRaw(der){
  }
  if(pos!==b.length)throw Error("DER extra bytes");return out;
 }
-export async function verifyAssertion(assertion,spki,expectedChallenge,origin,rpId){
+export function assessCounter(previous,current){
+ if(!Number.isSafeInteger(previous)||!Number.isSafeInteger(current)||previous<0||current<0)throw Error("Invalid authenticator counter");
+ if(current===0)return {status:"not_supported",reason:"Authenticator counters may be unsupported"};
+ if(previous===0)return {status:"first_observation",difference:current};
+ if(current<=previous)throw Error("Potential replay or authenticator clone: counter did not advance");
+ return {status:"advanced",difference:current-previous};
+}
+export async function verifyAssertion(assertion,spki,expectedChallenge,origin,rpId,previousCounter=null){
  const r=assertion.response;
  verifyClientData(r.clientDataJSON,"webauthn.get",expectedChallenge,origin);
  const flags=await verifyAuthData(r.authenticatorData,rpId);
@@ -44,5 +51,6 @@ export async function verifyAssertion(assertion,spki,expectedChallenge,origin,rp
  const key=await crypto.subtle.importKey("spki",decode64(spki),{name:"ECDSA",namedCurve:"P-256"},false,["verify"]);
  const ok=await crypto.subtle.verify({name:"ECDSA",hash:"SHA-256"},key,derToRaw(r.signature),message);
  if(!ok)throw Error("Signature verification failed");
- return {verified:true,...flags};
+ const counterReview=previousCounter===null?{status:"not_checked"}:assessCounter(previousCounter,flags.counter);
+ return {verified:true,...flags,counterReview};
 }
