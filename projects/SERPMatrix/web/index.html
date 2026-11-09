@@ -21,7 +21,7 @@ code{color:#bce9e9;overflow-wrap:anywhere}.notice{padding:16px 18px;border:1px s
 </style></head>
 <body><header><div class="brand"><span class="dot" aria-hidden="true"></span>KARMA <span style="color:var(--accent)">/</span> ENGINEERING LAB</div><nav><a href="https://github.com/vishwasaithalz/AI-Automation-Lab/tree/main/projects/SERPMatrix">SOURCE + TESTS</a><a href="https://github.com/vishwasaithalz">PROFILE</a><a href="https://vishwasaithal.ai.studio/" title="Visit the main cybersecurity, web design and SEO portfolio">PORTFOLIO</a></nav></header>
 <main><div class="eyebrow">02 / Technical SEO · Interactive experimental prototype</div><h1>SERPMatrix<br><em>Page structure auditor</em></h1>
-<p class="lead">Paste HTML, analyze page metadata and structured data locally, then generate valid XML sitemap entries. A focused workbench for verifiable technical SEO checks.</p><div class="pills"><span class="pill">Metadata auditing</span><span class="pill">JSON-LD syntax</span><span class="pill">Layout risk flags</span><span class="pill">HTTPS sitemap</span></div>
+<p class="lead">Paste HTML, analyze page metadata and structured data locally, then generate valid XML sitemap entries. A focused workbench for verifiable technical SEO checks.</p><div class="pills"><span class="pill">Metadata auditing</span><span class="pill">JSON-LD syntax</span><span class="pill">Layout risk flags</span><span class="pill">HTTPS sitemap</span><span class="pill">H1 and alt checks</span></div>
 <div class="work"><section class="panel"><h2>Workbench</h2><p class="sub">Explore the actual client-side logic. Your inputs stay in this browser tab.</p><div class="field"><label for="htmlinput">HTML source to audit</label><textarea id="htmlinput" spellcheck="false"><!doctype html>
 <html><head><title>KARMA Example Page</title>
 <meta name="description" content="An illustrative page">
@@ -52,7 +52,17 @@ document.getElementById("audit").addEventListener("click",()=>{
  if(!canonical)findings.push("missing_canonical");
  if(missingDimensions)findings.push("images_without_dimensions: "+missingDimensions);
  if(invalid)findings.push("invalid_jsonld_blocks: "+invalid);
- show(findings.length?"REVIEW REQUIRED":"BASIC CHECKS PASSED",{title,description:m("description"),viewport:m("viewport"),canonical,robots:m("robots"),images:images.length,missingDimensions,jsonldBlocks:jsonld.length,invalidJsonld:invalid,findings,note:"Not a Google ranking or Core Web Vitals score"});
+ const h1Count=doc.querySelectorAll("h1").length;
+ const missingAlt=images.filter(image=>!image.hasAttribute("alt")).length;
+ const links=[...doc.querySelectorAll("a")];
+ const missingHref=links.filter(link=>!link.getAttribute("href")).length;
+ const extendedWarnings=[];
+ if(h1Count===0)extendedWarnings.push("missing_h1");
+ if(h1Count>1)extendedWarnings.push("multiple_h1");
+ if(missingAlt)extendedWarnings.push("images_without_alt: "+missingAlt);
+ if(missingHref)extendedWarnings.push("links_without_href: "+missingHref);
+ findings.push(...extendedWarnings);
+ show(findings.length?"REVIEW REQUIRED":"BASIC CHECKS PASSED",{title,description:m("description"),viewport:m("viewport"),canonical,robots:m("robots"),images:images.length,missingDimensions,jsonldBlocks:jsonld.length,invalidJsonld:invalid,h1Count,imagesWithoutAlt:missingAlt,linksWithoutHref:missingHref,extendedWarnings,findings,note:"Not a Google ranking or Core Web Vitals score"});
 });
 document.getElementById("sitemap").addEventListener("click",()=>{
  const urls=document.getElementById("urlinput").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
