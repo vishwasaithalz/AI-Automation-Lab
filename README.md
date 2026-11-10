@@ -175,17 +175,3 @@ Keep provider-specific code isolated and include tests for success, failure, tim
 ![AI-Automation-Lab original animated project signal](assets/karma-motion.gif)
 
 [Download this project's GIF](assets/karma-motion.gif) · [View the animated SVG](assets/karma-signal.svg)
-
-
-<!-- VISHWAS SIGNATURE SIGNAL START -->
-### 🎞 Signature animation / AI Automation Lab
-
-<p align="center"><a href="https://vishwasaithalz.github.io/vishwasaithalz/"><img src="https://raw.githubusercontent.com/vishwasaithalz/vishwasaithalz/main/assets/arcade-gifs/automation-lab.gif" width="100%" alt="Original AI Automation Lab automation pulse animated signal. Open Vishwas Aithal's single interactive GitHub Pages portfolio." /></a></p>
-
-<p align="center"><strong>Vishwas Aithal / PSYCHKARMA / BOOTDISK 1995</strong><br/>
-<a href="https://vishwasaithalz.github.io/vishwasaithalz/">PRESS START / ONE INTERACTIVE PORTFOLIO</a> ·
-<a href="https://vishwasaithalz.github.io/vishwasaithalz/arcade/">PLAY ARCADE</a> ·
-<a href="https://github.com/vishwasaithalz">GITHUB PROFILE</a></p>
-
-<sub>Original project-specific artwork. This is a visual identity clip, not a live system measurement.</sub>
-<!-- VISHWAS SIGNATURE SIGNAL END -->
