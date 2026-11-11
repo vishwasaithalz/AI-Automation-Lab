@@ -36,7 +36,15 @@ aside{padding:18px;margin-top:28px;background:#2a2e3e;border:1px solid #7f8197;b
 <div class="actions"><button id="optimize">Choose higher contrast</button><button id="reset" class="alt">Reset tokens</button></div>
 <div class="preview" id="preview"><strong>Readable intelligence.</strong><p>Dense interfaces should feel precise, never difficult to scan.</p></div>
 <p class="eyebrow" style="margin:26px 0 0">Measured contrast</p><div id="ratio" aria-live="polite">--</div><div id="grades" aria-live="polite">Checking…</div>
-<p id="message" role="status">Ready.</p></section>
+<p id="message" role="status">Ready.</p>
+<div class="field" style="border-top:1px solid var(--line);padding-top:18px;margin-top:25px">
+<label for="palette-input">Palette contrast audit (2 to 12 hex colors, one per line)</label>
+<textarea id="palette-input" rows="5" spellcheck="false" style="width:100%;background:#0c1b29;color:var(--ink);border:1px solid #6d859c;border-radius:6px;padding:12px;font:13px/1.6 ui-monospace,monospace">#f4f8fe
+#101b29
+#8fd5e6
+#27435a</textarea></div>
+<div class="actions"><button id="palette-run" type="button">Audit palette</button></div>
+<pre id="palette-result" aria-live="polite" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:310px;overflow:auto;background:#0d1b29;border:1px solid var(--line);padding:15px;font:12px/1.55 ui-monospace,monospace">Palette ready for local audit.</pre></section>
 <section class="panel" aria-labelledby="component-title"><h2 id="component-title">Accessible primitives</h2><p class="muted">Use left/right arrow keys to navigate tabs, Enter to activate controls, and Escape to close the modal.</p>
 <div role="tablist" aria-label="Component examples" class="tabs"><button role="tab" id="tab-actions" aria-controls="pane-actions" aria-selected="true" tabindex="0">Actions</button><button role="tab" id="tab-data" aria-controls="pane-data" aria-selected="false" tabindex="-1">Data</button><button role="tab" id="tab-details" aria-controls="pane-details" aria-selected="false" tabindex="-1">Details</button></div>
 <div class="tabcontent" role="tabpanel" id="pane-actions" aria-labelledby="tab-actions"><p class="muted">A native modal, keyboard-operated actions and polite status announcements.</p><div class="actions"><button id="modal-open">Open modal</button><button class="alt" id="toast-open">Show status</button><button class="alt" id="toast-close">Clear status</button></div><div id="toast" aria-live="polite"></div></div>

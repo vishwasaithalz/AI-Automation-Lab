@@ -27,7 +27,14 @@ code{color:#bce9e9;overflow-wrap:anywhere}.notice{padding:16px 18px;border:1px s
  <div class="field"><label for="payload">Payload content</label><textarea id="payload" maxlength="8192" spellcheck="false" placeholder="Enter a safe sample request body"></textarea></div>
  <div class="buttons"><button id="inspect">Inspect request</button><button class="alt" id="reset">Reset counters</button><button class="alt" id="nonce">Generate CSP nonce</button></div>
  <p class="sub" style="margin:0">Rate limit: 5 simulated requests per 60 seconds, in this browser tab only.</p></section>
-<section class="panel"><h2>Execution readout</h2><p class="sub">Demonstration results, not live infrastructure measurements.</p><div class="stat" id="status">READY · LOCAL MODE</div><div id="result" class="result" aria-live="polite">Run an example to view the local result.</div></section></div><aside class="notice"><strong>Engineering boundary:</strong> The demo uses fixed signatures and an in-memory JavaScript rate limiter. It does not provide Redis, WebAssembly, TLS policy enforcement, line-rate inspection or any latency guarantee.</aside></main>
+<section class="panel"><h2>Execution readout</h2><p class="sub">Demonstration results, not live infrastructure measurements.</p><div class="stat" id="status">READY · LOCAL MODE</div><div id="result" class="result" aria-live="polite">Run an example to view the local result.</div></section><section class="panel" style="grid-column:1/-1"><h2>Batch rule inspector</h2><p class="sub">Paste up to 100 synthetic request records. The report counts verdicts without echoing request bodies. This is an offline demonstration without a shared firewall or backend.</p>
+<div class="field"><label for="batch-input">Local JSON request records</label><textarea id="batch-input" spellcheck="false" maxlength="50000" style="min-height:125px">[
+  {"path":"/health","body":"ok"},
+  {"path":"/../config","body":""},
+  {"path":"/search","body":"union select id"}
+]</textarea></div>
+<div class="buttons"><button id="batch-inspect" type="button">Inspect batch</button><button id="batch-example" type="button" class="alt">Load sample records</button></div>
+<div class="stat" id="batch-status" role="status" aria-live="polite">READY · BATCH MODE</div><pre id="batch-result" class="result">No batch inspection has run.</pre></section></div><aside class="notice"><strong>Engineering boundary:</strong> The demo uses fixed signatures and an in-memory JavaScript rate limiter. It does not provide Redis, WebAssembly, TLS policy enforcement, line-rate inspection or any latency guarantee.</aside></main>
 <footer>© KARMA.EXE LAB · Working prototype, not production infrastructure · No personal data or network probes are transmitted.</footer>
 <script>
 "use strict";
@@ -50,5 +57,34 @@ document.getElementById("nonce").addEventListener("click",()=>{
  const arr=new Uint8Array(18);crypto.getRandomValues(arr);
  const nonce=btoa(String.fromCharCode(...arr)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=/g,"");
  show("CSP NONCE · GENERATED",{nonce,csp:"default-src 'self'; object-src 'none'; script-src 'self' 'nonce-"+nonce+"'",note:"Example header only. Not injected into this page's live CSP."});
+});
+
+const batchDefault=document.getElementById("batch-input").value;
+document.getElementById("batch-example").addEventListener("click",()=>{
+ document.getElementById("batch-input").value=batchDefault;
+ document.getElementById("batch-status").textContent="SAMPLE LOADED";
+});
+document.getElementById("batch-inspect").addEventListener("click",()=>{
+ const status=document.getElementById("batch-status"),result=document.getElementById("batch-result");
+ try{
+  const raw=document.getElementById("batch-input").value;
+  if(raw.length>50000)throw Error("Input exceeds 50,000 characters.");
+  const items=JSON.parse(raw);
+  if(!Array.isArray(items)||items.length>100)throw Error("Supply a JSON array of up to 100 requests.");
+  const counts=Object.create(null),verdicts=[];
+  for(const request of items){
+   if(!request||Array.isArray(request)||typeof request!=="object"||
+      typeof request.path!=="string"||typeof (request.body??"")!=="string")
+     throw Error("Each record needs a string path and an optional string body.");
+   const payload=request.path+"\n"+(request.body??"");
+   const reason=payload.length>8192?"size_limit":(rules.find(([,pattern])=>pattern.test(payload))?.[0]??"no_demo_rule_matched");
+   const allowed=reason==="no_demo_rule_matched";
+   counts[reason]=(counts[reason]||0)+1;
+   verdicts.push({index:verdicts.length+1,allowed,reason});
+  }
+  status.textContent="BATCH COMPLETED · LOCAL";
+  result.textContent=JSON.stringify({total:verdicts.length,allowed:verdicts.filter(x=>x.allowed).length,
+   byReason:counts,results:verdicts,note:"Signatures only; no live rate limiting, request-body echo or firewall protection"},null,2);
+ }catch(e){status.textContent="INPUT ERROR";result.textContent=e.message;}
 });
 </script></body></html>

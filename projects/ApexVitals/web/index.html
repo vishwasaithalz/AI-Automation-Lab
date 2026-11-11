@@ -29,7 +29,7 @@ code{color:#bce9e9;overflow-wrap:anywhere}.notice{padding:16px 18px;border:1px s
 <script type="application/json">{"example":true}</script>
 </body></html></textarea></div>
  <div class="field"><label for="asset">Asset filename stem (srcset plan only)</label><input id="asset" value="hero" maxlength="80"></div>
- <div class="buttons"><button id="inspect">Analyze route</button><button class="alt" id="compress">Download gzip</button></div></section>
+ <div class="buttons"><button id="inspect">Analyze route</button><button class="alt" id="compress">Download gzip</button><button class="alt" id="budget" type="button">Compare payload sizes</button></div></section>
 <section class="panel"><h2>Execution readout</h2><p class="sub">Demonstration results, not live infrastructure measurements.</p><div class="stat" id="status">READY · LOCAL MODE</div><div id="result" class="result" aria-live="polite">Run an example to view the local result.</div></section></div><aside class="notice"><strong>Engineering boundary:</strong> The gzip download actually compresses the local HTML in your browser. The srcset filenames are a plan, not generated AVIF assets. No actual font stripping, AVIF encoding, global loading benchmark or zero-CLS guarantee.</aside></main>
 <footer>© KARMA.EXE LAB · Working prototype, not production infrastructure · No personal data or network probes are transmitted.</footer>
 <script>
@@ -53,5 +53,19 @@ document.getElementById("compress").addEventListener("click",async()=>{
   a.href=url;a.download="route.html.gz";a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
   show("GZIP GENERATED",{originalBytes:bytes.byteLength,gzipBytes:blob.size,reductionPercent:bytes.byteLength?Number((100*(1-blob.size/bytes.byteLength)).toFixed(1)):0,note:"Real client-side gzip compression; not Brotli or AVIF"});
  }catch(e){show("ERROR",e.message)}
+});
+
+document.getElementById("budget").addEventListener("click",async()=>{
+ if(!("CompressionStream" in window)){show("UNSUPPORTED","CompressionStream is unavailable in this browser.");return}
+ try{
+  const text=document.getElementById("source").value;
+  if(text.length>1000000)throw Error("Input exceeds the 1,000,000 character local comparison limit.");
+  const bytes=new TextEncoder().encode(text);
+  const compressed=await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream("gzip"))).blob();
+  show("LOCAL PAYLOAD BUDGET",{rawBytes:bytes.byteLength,gzipBytes:compressed.size,
+   bytesSaved:bytes.byteLength-compressed.size,
+   savingsPercent:bytes.byteLength?Number((100*(1-compressed.size/bytes.byteLength)).toFixed(1)):0,
+   note:"Measured in your browser with CompressionStream. No real network transfer or Core Web Vitals claimed."});
+ }catch(e){show("BUDGET ERROR",e.message)}
 });
 </script></body></html>
