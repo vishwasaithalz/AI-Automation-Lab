@@ -72,4 +72,5 @@ document.getElementById("sitemap").addEventListener("click",()=>{
  const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
  show("XML SITEMAP · GENERATED",'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+valid.map(u=>"  <url><loc>"+esc(u)+"</loc></url>").join("\n")+'\n</urlset>');
 });
-</script></body></html>
+</script><script src="./experience.js" defer></script>
+</body></html>
