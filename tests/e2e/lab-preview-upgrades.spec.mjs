@@ -16,7 +16,7 @@ test.beforeAll(async()=>{
    const directory=resolve(root,parts[0],'web'),filename=resolve(directory,...(parts.slice(1).length?parts.slice(1):['index.html']));
    if(!(filename===directory||filename.startsWith(directory+sep))){res.writeHead(403).end('Forbidden');return}
    const bytes=await readFile(filename);
-   res.setHeader('Content-Type',extname(filename)==='.mjs'?'text/javascript; charset=utf-8':'text/html; charset=utf-8');
+   res.setHeader('Content-Type',['.mjs','.js'].includes(extname(filename))?'text/javascript; charset=utf-8':'text/html; charset=utf-8');
    res.setHeader('Cache-Control','no-store');res.end(bytes);
   }catch{res.writeHead(404).end('Not found')}
  });
@@ -90,4 +90,67 @@ test('Spectra UI compares a bounded palette with WCAG contrast logic',async({pag
  await expect(page.locator('#palette-result')).toContainText('21:1');
  await expect(page.locator('#palette-result')).toContainText('AA normal PASS');
  await expect(page.locator('#message')).toContainText('3 local palette tokens');
+});
+
+test('instrument stage loads without autoplay and respects motion and theme controls',async({page})=>{
+ for(const lab of ['SentinelPulse','SERPMatrix','CloudHardener','ApexVitals','ZeroAuth','SpectraUI']){
+  const errors=[];const onError=e=>errors.push(e.message);page.on('pageerror',onError);
+  await page.goto(base+'/'+lab+'/');
+  await expect(page.locator('.labdeck')).toBeVisible();
+  await expect(page.locator('#lab-sound')).toHaveAttribute('aria-pressed','false');
+  await page.locator('#lab-motion').click();
+  await expect(page.locator('html')).toHaveAttribute('data-lab-still','true');
+  await page.locator('#lab-theme').click();
+  await expect(page.locator('html')).toHaveAttribute('data-lab-light','true');
+  expect(errors,lab+' JavaScript exceptions').toEqual([]);
+  page.off('pageerror',onError);
+ }
+});
+test('SentinelPulse replay records eight synthetic verdicts',async({page})=>{
+ await page.goto(base+'/SentinelPulse/');
+ await page.locator('#new-replay').click();
+ await expect(page.locator('#new-out')).toContainText('Inspected: 8');
+ await expect(page.locator('#new-out')).toContainText('Blocked:');
+ const download=page.waitForEvent('download');
+ await page.locator('#new-export').click();
+ expect((await download).suggestedFilename()).toBe('sentinelpulse-verdicts.json');
+});
+test('SERPMatrix extension reports heading jumps and image alt gaps',async({page})=>{
+ await page.goto(base+'/SERPMatrix/');
+ await page.locator('#htmlinput').fill('<html><head><title>Example</title><meta property="og:title" content="Example"></head><body><h1>Intro</h1><h3>Subsection</h3><img src="x.jpg"></body></html>');
+ await page.locator('#new-run').click();
+ await expect(page.locator('#new-out')).toContainText('H1 to H3');
+ await expect(page.locator('#new-out')).toContainText('Images without alt: 1');
+});
+test('CloudHardener extension maps findings into concrete severity labels',async({page})=>{
+ await page.goto(base+'/CloudHardener/');
+ await page.locator('#insecure').click();
+ await page.locator('#analyze').click();
+ await page.locator('#new-run').click();
+ await expect(page.locator('#new-out')).toContainText('[CRITICAL]');
+ await expect(page.locator('#new-out')).toContainText('Disable privileged execution.');
+});
+test('ApexVitals extension measures local navigation timing without claiming remote results',async({page})=>{
+ await page.goto(base+'/ApexVitals/');
+ await page.locator('#new-run').click();
+ await expect(page.locator('#new-out')).toContainText('ttfbMs');
+ await expect(page.locator('#new-out')).toContainText('not a remote CWV audit');
+});
+test('ZeroAuth extension records capability status without credential data',async({page})=>{
+ await page.goto(base+'/ZeroAuth/');
+ await page.locator('#new-check').click();
+ await expect(page.locator('#new-out')).toContainText('BROWSER CAPABILITY');
+ await expect(page.locator('#new-out')).not.toContainText('publicKey');
+});
+test('Spectra UI extension exports a real CSS token file',async({page})=>{
+ await page.goto(base+'/SpectraUI/');
+ await page.locator('#fg').fill('#000000');
+ await page.locator('#bg').fill('#ffffff');
+ await page.locator('#new-sync').click();
+ await expect(page.locator('#new-out')).toContainText('--ui-fg: #000000');
+ await page.locator('#new-size').fill('26');
+ await expect(page.locator('#new-size-value')).toHaveText('26px');
+ const download=page.waitForEvent('download');
+ await page.locator('#new-export').click();
+ expect((await download).suggestedFilename()).toBe('spectra-tokens.css');
 });

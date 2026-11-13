@@ -104,4 +104,5 @@ document.getElementById("insecure").addEventListener("click",()=>{
  document.getElementById("manifest").value=JSON.stringify({kind:"Deployment",metadata:{name:"risky-example"},spec:{template:{spec:{containers:[{name:"app",image:"nginx:stable",securityContext:{privileged:true,allowPrivilegeEscalation:true}}]}}}},null,2);
  show("SAMPLE LOADED","Click Analyze policy to inspect the intentionally insecure example.");
 });
-</script></body></html>
+</script><script src="./experience.js" defer></script>
+</body></html>
