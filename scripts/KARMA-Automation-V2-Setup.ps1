@@ -81,7 +81,7 @@ if ($InstallNodeRed) {
   $dataDir = Join-Path $runtime 'data'
   New-Item -ItemType Directory -Force -Path $dataDir | Out-Null
   if (-not (Test-Path $settingsPath)) {
-@'
+    $settingsBody = @'
 module.exports = {
   uiHost: '127.0.0.1',
   uiPort: 1880,
@@ -89,7 +89,8 @@ module.exports = {
   functionGlobalContext: {},
   editorTheme: { projects: { enabled: false } }
 };
-'@ | Set-Content -Path $settingsPath -Encoding utf8
+'@
+    $settingsBody | Set-Content -Path $settingsPath -Encoding utf8
   }
   $launcher = Join-Path $runtime 'Start-KARMA-NodeRED.ps1'
   $bin = Join-Path $runtime 'node_modules\.bin\node-red.cmd'
