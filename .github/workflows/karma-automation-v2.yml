@@ -8,6 +8,8 @@ on:
       - 'tests/karma-automation-audit.test.mjs'
       - 'docs/KARMA_AUTOMATION_V2.md'
       - 'scripts/KARMA-Automation-V2-Setup.ps1'
+      - 'automation/node-red/netmirror-readonly-check.json'
+      - 'tests/karma-node-red-flow.test.mjs'
       - '.github/workflows/karma-automation-v2.yml'
   workflow_dispatch:
 
@@ -26,7 +28,7 @@ jobs:
         with:
           node-version: '22'
       - name: Validate no-side-effect automation policy
-        run: node --test tests/karma-automation-audit.test.mjs
+        run: node --test tests/karma-automation-audit.test.mjs tests/karma-node-red-flow.test.mjs
       - name: Produce ephemeral review receipt
         run: node src/karma-automation-audit.mjs --out "$RUNNER_TEMP/karma-automation-v2-audit.json"
       - name: Parse Windows PowerShell bootstrap without executing it
