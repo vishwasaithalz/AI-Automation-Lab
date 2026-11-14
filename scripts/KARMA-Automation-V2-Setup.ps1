@@ -80,6 +80,14 @@ if ($InstallNodeRed) {
   $settingsPath = Join-Path $runtime 'settings.js'
   $dataDir = Join-Path $runtime 'data'
   New-Item -ItemType Directory -Force -Path $dataDir | Out-Null
+  $flowSource = Join-Path $workspace 'automation\node-red\netmirror-readonly-check.json'
+  $flowTarget = Join-Path $dataDir 'flows.json'
+  if ((Test-Path $flowSource) -and -not (Test-Path $flowTarget)) {
+    Copy-Item -Path $flowSource -Destination $flowTarget
+    Write-Host 'Manual-only NetMirror QA flow installed. It will run only when clicked.' -ForegroundColor Green
+  } elseif (Test-Path $flowTarget) {
+    Write-Host 'Existing Node-RED flows preserved. Import the QA flow manually if desired.' -ForegroundColor Yellow
+  }
   if (-not (Test-Path $settingsPath)) {
     $settingsBody = @'
 module.exports = {
