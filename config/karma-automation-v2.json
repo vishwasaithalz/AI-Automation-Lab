@@ -1,0 +1,421 @@
+{
+  "schema_version": 2,
+  "title": "KARMA.EXE automation v2 | staged adoption",
+  "status": "review_only",
+  "last_review_date": "2026-11-14",
+  "policy": {
+    "dry_run": true,
+    "auto_install": false,
+    "execute_third_party_code": false,
+    "auto_publish": false,
+    "auto_deploy": false,
+    "auto_merge": false,
+    "auto_delete": false,
+    "auto_spend": false,
+    "cloud_memory": false,
+    "preserve_existing_schedules": true,
+    "explicit_approval_for": [
+      "install",
+      "execute-third-party-code",
+      "write-production",
+      "deploy",
+      "publish",
+      "send-messages",
+      "delete",
+      "expense",
+      "enable-cloud-memory"
+    ],
+    "immutable_content": [
+      "original_song_audio",
+      "approved_original_lyrics"
+    ],
+    "music_release": "assets_only_no_publish",
+    "social_delivery": "existing_buffer_only_post_only_after_owner_approval",
+    "evidence_rule": "never_claim_completed_without_logs_links_or_artifacts"
+  },
+  "orchestrators": [
+    {
+      "id": "github-actions",
+      "purpose": "PR checks and diagnostics",
+      "schedule_policy": "no additional recurring schedules"
+    },
+    {
+      "id": "chatgpt-automations",
+      "purpose": "current daily journal and weekly digest routines",
+      "schedule_policy": "keep existing four enabled routines only"
+    },
+    {
+      "id": "buffer",
+      "purpose": "existing social distribution",
+      "schedule_policy": "do not create or alter slots"
+    },
+    {
+      "id": "node-red",
+      "purpose": "proposed future local visual orchestrator",
+      "schedule_policy": "not installed; offline setup after review"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "hallmark",
+      "repo": "Nutlope/hallmark",
+      "decision": "select",
+      "license": "MIT",
+      "use": "primary distinct website design skill",
+      "agent": "agent skill"
+    },
+    {
+      "id": "rea",
+      "repo": "morluto/rea",
+      "decision": "optional",
+      "license": "MIT",
+      "use": "authorized analysis of owned apps and binaries only",
+      "agent": "MCP"
+    },
+    {
+      "id": "first-contributions",
+      "repo": "firstcontributions/first-contributions",
+      "decision": "reference",
+      "license": "MIT",
+      "use": "learn organic upstream contributions; not an automation engine",
+      "agent": "none"
+    },
+    {
+      "id": "open-code-review",
+      "repo": "alibaba/open-code-review",
+      "decision": "select",
+      "license": "Apache-2.0",
+      "use": "agent-assisted review with deterministic rule checks",
+      "agent": "CLI and delegation"
+    },
+    {
+      "id": "faceless-content",
+      "repo": "cporter202/automate-faceless-content",
+      "decision": "reference",
+      "license": "NO_LICENSE_DETECTED",
+      "use": "study workflow ideas only; no unlicensed code copying",
+      "agent": "none"
+    },
+    {
+      "id": "impeccable",
+      "repo": "pbakaus/impeccable",
+      "decision": "select",
+      "license": "Apache-2.0",
+      "use": "UI lint and structured design critique",
+      "agent": "agent skill and CLI"
+    },
+    {
+      "id": "anthropic-skills",
+      "repo": "anthropics/skills",
+      "decision": "reference",
+      "license": "PER_SKILL_REVIEW",
+      "use": "skill format patterns; audit each component license",
+      "agent": "skills"
+    },
+    {
+      "id": "claude-seo",
+      "repo": "AgriciDaniel/claude-seo",
+      "decision": "conditional",
+      "license": "MIT",
+      "use": "specialized agent-led SEO reviews if Claude environment exists",
+      "agent": "Claude Code"
+    },
+    {
+      "id": "voicestudio",
+      "repo": "debpalash/VoiceStudio",
+      "decision": "conditional",
+      "license": "AGPL-3.0",
+      "use": "local dubbing and voice for consented audio, not replacement of original rap",
+      "agent": "API and MCP"
+    },
+    {
+      "id": "taste-skill",
+      "repo": "Leonxlnx/taste-skill",
+      "decision": "alternate",
+      "license": "MIT",
+      "use": "art direction when Hallmark direction is unsuitable",
+      "agent": "agent skill"
+    },
+    {
+      "id": "video-shotcraft",
+      "repo": "Vincentwei1021/video-shotcraft",
+      "decision": "conditional",
+      "license": "Apache-2.0_PLUS_SEPARATE_REMOTION_LICENSE",
+      "use": "editable short motion work; check Remotion eligibility",
+      "agent": "agent skill"
+    }
+  ],
+  "existing_toolchain": [
+    {
+      "id": "node-red",
+      "repo": "node-red/node-red",
+      "license": "Apache-2.0",
+      "decision": "future_primary_orchestrator"
+    },
+    {
+      "id": "n8n",
+      "repo": "n8n-io/n8n",
+      "license": "SUSTAINABLE_USE_SOURCE_AVAILABLE",
+      "decision": "alternate_not_osi_open_source"
+    },
+    {
+      "id": "activepieces",
+      "repo": "activepieces/activepieces",
+      "license": "MIT_CORE_ENTERPRISE_PARTS_RESTRICTED",
+      "decision": "alternate"
+    },
+    {
+      "id": "moneyprinterturbo",
+      "repo": "harry0703/MoneyPrinterTurbo",
+      "license": "MIT",
+      "decision": "conditional_templates"
+    },
+    {
+      "id": "funclip",
+      "repo": "modelscope/FunClip",
+      "license": "MIT",
+      "decision": "conditional_subtitles_clips"
+    },
+    {
+      "id": "abogen",
+      "repo": "denizsafak/abogen",
+      "license": "MIT",
+      "decision": "optional_audiobook_narration"
+    },
+    {
+      "id": "kdenlive",
+      "repo": "KDE/kdenlive",
+      "license": "GPL-3.0",
+      "decision": "primary_manual_editor"
+    },
+    {
+      "id": "whispercpp",
+      "repo": "ggml-org/whisper.cpp",
+      "license": "MIT",
+      "decision": "local_cpu_transcript_alignment_helper"
+    },
+    {
+      "id": "motion-canvas",
+      "repo": "motion-canvas/motion-canvas",
+      "license": "MIT",
+      "decision": "osi_open_source_motion_alternate"
+    },
+    {
+      "id": "lighthouse-ci",
+      "repo": "GoogleChrome/lighthouse-ci",
+      "license": "Apache-2.0",
+      "decision": "deterministic_seo_and_performance_checks"
+    },
+    {
+      "id": "reviewdog",
+      "repo": "reviewdog/reviewdog",
+      "license": "MIT",
+      "decision": "lightweight_ci_code_review_alternate"
+    }
+  ],
+  "workstreams": [
+    {
+      "id": "engineering",
+      "owner": "github-actions",
+      "phase": "ready_for_review",
+      "tools": [
+        "open-code-review",
+        "impeccable"
+      ],
+      "inputs": [
+        "pull-request-diff"
+      ],
+      "outputs": [
+        "lint-evidence",
+        "security-review",
+        "human-approval"
+      ],
+      "external_action": "none"
+    },
+    {
+      "id": "web-design",
+      "owner": "github-actions",
+      "phase": "stage",
+      "tools": [
+        "hallmark",
+        "impeccable"
+      ],
+      "inputs": [
+        "approved-brief",
+        "existing-pages"
+      ],
+      "outputs": [
+        "design-review",
+        "responsive-test"
+      ],
+      "external_action": "none"
+    },
+    {
+      "id": "seo",
+      "owner": "github-actions",
+      "phase": "stage",
+      "tools": [
+        "lighthouse-ci",
+        "claude-seo"
+      ],
+      "inputs": [
+        "public-url"
+      ],
+      "outputs": [
+        "technical-audit",
+        "fix-list"
+      ],
+      "external_action": "none"
+    },
+    {
+      "id": "music-video",
+      "owner": "local-windows",
+      "phase": "stage",
+      "tools": [
+        "kdenlive",
+        "video-shotcraft",
+        "whispercpp"
+      ],
+      "inputs": [
+        "original-audio",
+        "unchanged-lyrics",
+        "watermark-free-source-video"
+      ],
+      "outputs": [
+        "qa-manifest",
+        "synchronized-lyric-video",
+        "verified-archive"
+      ],
+      "external_action": "none"
+    },
+    {
+      "id": "social",
+      "owner": "buffer",
+      "phase": "approval_required",
+      "tools": [
+        "content-distribution"
+      ],
+      "inputs": [
+        "approved-image",
+        "caption",
+        "schedule"
+      ],
+      "outputs": [
+        "draft-receipt",
+        "owner-approval"
+      ],
+      "external_action": "no_new_schedule_or_post"
+    },
+    {
+      "id": "private-journal",
+      "owner": "chatgpt-automations",
+      "phase": "existing",
+      "tools": [],
+      "inputs": [
+        "actual-tool-receipts"
+      ],
+      "outputs": [
+        "date-stamped-report"
+      ],
+      "external_action": "no_new_scheduler"
+    },
+    {
+      "id": "career-and-organic-github",
+      "owner": "human",
+      "phase": "stage",
+      "tools": [
+        "first-contributions"
+      ],
+      "inputs": [
+        "real-issues-and-upstream-needs"
+      ],
+      "outputs": [
+        "authentic-contributions"
+      ],
+      "external_action": "none"
+    },
+    {
+      "id": "local-os-eva",
+      "owner": "local-windows",
+      "phase": "deferred",
+      "tools": [
+        "voicestudio"
+      ],
+      "inputs": [
+        "consented-samples"
+      ],
+      "outputs": [
+        "local-preflight"
+      ],
+      "external_action": "no_unattended_install"
+    }
+  ],
+  "morning_tool_references": [
+    {
+      "name": "OpenSEO",
+      "role": "reference",
+      "identity": "owner_url_not_confirmed",
+      "use": "SEO idea comparison"
+    },
+    {
+      "name": "DramaClaw",
+      "role": "conditional",
+      "identity": "owner_url_not_confirmed",
+      "use": "script/storyboarding ideas; never replace original rap lyrics"
+    },
+    {
+      "name": "Stickman Video Director",
+      "role": "optional",
+      "identity": "owner_url_not_confirmed",
+      "use": "simple motion storyboard; skip if it conflicts with desired realistic imagery"
+    },
+    {
+      "name": "MangoDisk",
+      "role": "defer",
+      "identity": "owner_url_not_confirmed",
+      "use": "local storage investigation only; don't add broad filesystem permissions"
+    },
+    {
+      "name": "LinkedIn Skills",
+      "role": "reference",
+      "identity": "owner_url_not_confirmed",
+      "use": "career/profile drafts without automated engagement"
+    },
+    {
+      "name": "Easel",
+      "role": "defer",
+      "identity": "owner_url_not_confirmed",
+      "use": "ambiguous repo title; verify exact repository"
+    },
+    {
+      "name": "MakeMoneyWithAI",
+      "role": "reference",
+      "identity": "owner_url_not_confirmed",
+      "use": "business idea reference; not a revenue guarantee"
+    },
+    {
+      "name": "MoneyPrinterTurbo",
+      "role": "conditional",
+      "identity": "tentative_harry0703_MoneyPrinterTurbo",
+      "use": "offline video templates, not publishing"
+    },
+    {
+      "name": "FunClip",
+      "role": "conditional",
+      "identity": "tentative_modelscope_FunClip",
+      "use": "offline clipping and subtitles"
+    },
+    {
+      "name": "Abogen",
+      "role": "optional",
+      "identity": "tentative_denizsafak_abogen",
+      "use": "audiobook/narration only"
+    },
+    {
+      "name": "n8n",
+      "role": "alternate",
+      "identity": "verified_n8n-io_n8n",
+      "use": "source-available orchestration alternate to Node-RED"
+    }
+  ]
+}
