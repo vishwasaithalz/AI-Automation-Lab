@@ -24,7 +24,7 @@ export function auditAutomation(config) {
   check('explicit owner approvals', requiredApprovals.every(k => (policy.explicit_approval_for || []).includes(k)),
     'No future workflow can silently bypass owner approval.');
   check('schedule preservation', policy.preserve_existing_schedules === true &&
-    (config.orchestrators || []).every(o => !/add|create|enable.*schedule/i.test(o.schedule_policy || '')),
+    (config.orchestrators || []).every(o => !['add_new_schedule', 'create_new_schedule', 'enable_new_schedule'].includes(o.schedule_policy)),
     'Existing automation and Buffer schedules stay unchanged.');
   check('release and posting holds', policy.music_release === 'assets_only_no_publish' &&
     policy.social_delivery === 'existing_buffer_only_post_only_after_owner_approval',
