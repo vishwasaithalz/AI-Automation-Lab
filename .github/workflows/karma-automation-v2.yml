@@ -7,6 +7,7 @@ on:
       - 'src/karma-automation-audit.mjs'
       - 'tests/karma-automation-audit.test.mjs'
       - 'docs/KARMA_AUTOMATION_V2.md'
+      - 'scripts/KARMA-Automation-V2-Setup.ps1'
       - '.github/workflows/karma-automation-v2.yml'
   workflow_dispatch:
 
@@ -28,3 +29,17 @@ jobs:
         run: node --test tests/karma-automation-audit.test.mjs
       - name: Produce ephemeral review receipt
         run: node src/karma-automation-audit.mjs --out "$RUNNER_TEMP/karma-automation-v2-audit.json"
+      - name: Parse Windows PowerShell bootstrap without executing it
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            "$env:GITHUB_WORKSPACE/scripts/KARMA-Automation-V2-Setup.ps1",
+            [ref]$tokens,
+            [ref]$errors
+          ) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | Format-List
+            exit 1
+          }
