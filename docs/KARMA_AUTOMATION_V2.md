@@ -73,3 +73,23 @@ No install script for the eleven third-party repositories is run by the review w
 - [ ] Set up PR-based QA without additional timers
 - [ ] Explicitly approve the exact tool installations and external actions
 - [ ] Re-run tests and record receipts
+
+## Earlier morning repositories, reconciled
+
+The user also supplied earlier candidates called OpenSEO, MoneyPrinterTurbo, DramaClaw, FunClip, Abogen, Stickman Video Director, MangoDisk, LinkedIn Skills, Easel, n8n and MakeMoneyWithAI. The exact owners of the less-distinct repository names were not preserved alongside this review. Keep these **identity-unverified** rather than guessing a source and installing the wrong project. MoneyPrinterTurbo, FunClip, Abogen and n8n have plausible public matches recorded in the registry but are still not installed. This expands the prior 75-repo video/music catalog; it does not turn that entire catalog into mandatory dependencies.
+
+## Optional Windows bootstrap
+
+For a one-file local preflight, download the branch's reviewed `scripts/KARMA-Automation-V2-Setup.ps1` to Downloads and inspect it before execution. It clones only the review branch, runs the six Node policy tests and writes a JSON receipt to Downloads. Use `-InstallNodeRed` only after reviewing the pinned Node-RED 5.0.9 package and typing the explicit confirmation token. That optional install is local to Downloads, loopback-only and does **not** create a Windows service, browser automation or publishing flow.
+
+```powershell
+$downloads = if (Test-Path 'C:\Users\vishw\Downloads') { 'C:\Users\vishw\Downloads' } else { Join-Path $env:USERPROFILE 'Downloads' }
+$scriptPath = Join-Path $downloads 'KARMA-Automation-V2-Setup.ps1'
+Invoke-WebRequest 'https://raw.githubusercontent.com/vishwasaithalz/AI-Automation-Lab/review/karma-automation-v2-20261114/scripts/KARMA-Automation-V2-Setup.ps1' -OutFile $scriptPath
+Get-Content $scriptPath
+& $scriptPath
+# After reviewing the package and accepting local installation:
+# & $scriptPath -InstallNodeRed
+```
+
+**Laptop reality:** A Windows i5 with 8 GB RAM and integrated graphics can run metadata review, Node scripts, local Node-RED and moderate FFmpeg work. Large AI video models and multi-agent GPU workflows should be deferred or run on explicitly approved remote hardware. Never assume free cloud rendering is unlimited.
