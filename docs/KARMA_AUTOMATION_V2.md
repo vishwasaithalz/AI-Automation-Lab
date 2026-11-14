@@ -93,3 +93,14 @@ Get-Content $scriptPath
 ```
 
 **Laptop reality:** A Windows i5 with 8 GB RAM and integrated graphics can run metadata review, Node scripts, local Node-RED and moderate FFmpeg work. Large AI video models and multi-agent GPU workflows should be deferred or run on explicitly approved remote hardware. Never assume free cloud rendering is unlimited.
+
+## First real Node-RED flow: manual NetMirror endpoint preflight
+
+`automation/node-red/netmirror-readonly-check.json` contains three buttons, each performing only a public GET request:
+- Production `robots.txt`
+- Production `sitemap.xml`
+- AI Studio preview `robots.txt`
+
+The receipt appears in Node-RED's Debug sidebar with time, URL, HTTP status and pass/fail. The flow does not publish, merge, deploy, store credentials, alter an online service or run on a timer. The Windows bootstrap installs this flow only when a new local Node-RED runtime is explicitly installed, and never overwrites pre-existing flows.
+
+This is a real **manual quality check**, not proof that streaming-provider data, sitemap coverage or site rendering are accurate. Continue using the already existing CI endpoint checks and full browser reviews for those.
