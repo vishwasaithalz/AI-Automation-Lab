@@ -1,0 +1,30 @@
+name: KARMA automation v2 | safe review gates
+
+on:
+  pull_request:
+    paths:
+      - 'config/karma-automation-v2.json'
+      - 'src/karma-automation-audit.mjs'
+      - 'tests/karma-automation-audit.test.mjs'
+      - 'docs/KARMA_AUTOMATION_V2.md'
+      - '.github/workflows/karma-automation-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '22'
+      - name: Validate no-side-effect automation policy
+        run: node --test tests/karma-automation-audit.test.mjs
+      - name: Produce ephemeral review receipt
+        run: node src/karma-automation-audit.mjs --out "$RUNNER_TEMP/karma-automation-v2-audit.json"
