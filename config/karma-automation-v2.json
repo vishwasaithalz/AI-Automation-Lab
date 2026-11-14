@@ -349,5 +349,73 @@
       ],
       "external_action": "no_unattended_install"
     }
+  ],
+  "morning_tool_references": [
+    {
+      "name": "OpenSEO",
+      "role": "reference",
+      "identity": "owner_url_not_confirmed",
+      "use": "SEO idea comparison"
+    },
+    {
+      "name": "DramaClaw",
+      "role": "conditional",
+      "identity": "owner_url_not_confirmed",
+      "use": "script/storyboarding ideas; never replace original rap lyrics"
+    },
+    {
+      "name": "Stickman Video Director",
+      "role": "optional",
+      "identity": "owner_url_not_confirmed",
+      "use": "simple motion storyboard; skip if it conflicts with desired realistic imagery"
+    },
+    {
+      "name": "MangoDisk",
+      "role": "defer",
+      "identity": "owner_url_not_confirmed",
+      "use": "local storage investigation only; don't add broad filesystem permissions"
+    },
+    {
+      "name": "LinkedIn Skills",
+      "role": "reference",
+      "identity": "owner_url_not_confirmed",
+      "use": "career/profile drafts without automated engagement"
+    },
+    {
+      "name": "Easel",
+      "role": "defer",
+      "identity": "owner_url_not_confirmed",
+      "use": "ambiguous repo title; verify exact repository"
+    },
+    {
+      "name": "MakeMoneyWithAI",
+      "role": "reference",
+      "identity": "owner_url_not_confirmed",
+      "use": "business idea reference; not a revenue guarantee"
+    },
+    {
+      "name": "MoneyPrinterTurbo",
+      "role": "conditional",
+      "identity": "tentative_harry0703_MoneyPrinterTurbo",
+      "use": "offline video templates, not publishing"
+    },
+    {
+      "name": "FunClip",
+      "role": "conditional",
+      "identity": "tentative_modelscope_FunClip",
+      "use": "offline clipping and subtitles"
+    },
+    {
+      "name": "Abogen",
+      "role": "optional",
+      "identity": "tentative_denizsafak_abogen",
+      "use": "audiobook/narration only"
+    },
+    {
+      "name": "n8n",
+      "role": "alternate",
+      "identity": "verified_n8n-io_n8n",
+      "use": "source-available orchestration alternate to Node-RED"
+    }
   ]
 }
