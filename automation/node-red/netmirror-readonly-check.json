@@ -1,0 +1,163 @@
+[
+  {
+    "id": "000000000000a201",
+    "type": "tab",
+    "label": "KARMA | Manual NetMirror preflight",
+    "disabled": false,
+    "info": "Owner-triggered GET checks only. No timers, publishing, file writes, deployment or credential access."
+  },
+  {
+    "id": "000000000000a202",
+    "type": "inject",
+    "z": "000000000000a201",
+    "name": "Check production robots",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "https://netmirror.fit/robots.txt",
+    "payloadType": "str",
+    "x": 150,
+    "y": 80,
+    "wires": [
+      [
+        "000000000000a205"
+      ]
+    ]
+  },
+  {
+    "id": "000000000000a203",
+    "type": "inject",
+    "z": "000000000000a201",
+    "name": "Check production sitemap",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "https://netmirror.fit/sitemap.xml",
+    "payloadType": "str",
+    "x": 150,
+    "y": 160,
+    "wires": [
+      [
+        "000000000000a205"
+      ]
+    ]
+  },
+  {
+    "id": "000000000000a204",
+    "type": "inject",
+    "z": "000000000000a201",
+    "name": "Check preview robots",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "https://netmirrorfit.ai.studio/robots.txt",
+    "payloadType": "str",
+    "x": 150,
+    "y": 240,
+    "wires": [
+      [
+        "000000000000a205"
+      ]
+    ]
+  },
+  {
+    "id": "000000000000a205",
+    "type": "function",
+    "z": "000000000000a201",
+    "name": "Force read-only GET",
+    "func": "msg.url = String(msg.payload); msg.topic = msg.url; msg.method = 'GET'; delete msg.headers; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 160,
+    "wires": [
+      [
+        "000000000000a206"
+      ]
+    ]
+  },
+  {
+    "id": "000000000000a206",
+    "type": "http request",
+    "z": "000000000000a201",
+    "name": "Fetch public endpoint",
+    "method": "use",
+    "ret": "txt",
+    "paytoqs": "ignore",
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "insecureHTTPParser": false,
+    "authType": "",
+    "senderr": false,
+    "headers": [],
+    "x": 620,
+    "y": 160,
+    "wires": [
+      [
+        "000000000000a207"
+      ]
+    ]
+  },
+  {
+    "id": "000000000000a207",
+    "type": "function",
+    "z": "000000000000a201",
+    "name": "Make QA receipt",
+    "func": "const url = String(msg.topic || ''); const body = String(msg.payload || ''); const status = Number(msg.statusCode || 0); let expected = false; if (url.includes('netmirrorfit.ai.studio/robots.txt')) expected = /Disallow:\\s*\\//i.test(body); else if (url.includes('robots.txt')) expected = /Sitemap:\\s*https:\\/\\/netmirror\\.fit\\/sitemap\\.xml/i.test(body); else if (url.includes('sitemap.xml')) expected = /<urlset\\b|<sitemapindex\\b/i.test(body); msg.payload = {checked_at_utc: new Date().toISOString(), url, status, passed: status === 200 && expected, read_only: true, scope: 'HTTP endpoint check only; not content accuracy or deployment validation'}; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 850,
+    "y": 160,
+    "wires": [
+      [
+        "000000000000a208"
+      ]
+    ]
+  },
+  {
+    "id": "000000000000a208",
+    "type": "debug",
+    "z": "000000000000a201",
+    "name": "Evidence: open Debug sidebar",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 1100,
+    "y": 160,
+    "wires": []
+  }
+]
